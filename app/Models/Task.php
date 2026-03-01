@@ -5,32 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaskManager extends Model
+class Task extends Model
 {
     use HasFactory;
 
     protected $fillable =
         [
-            'user_id',
+            'task_manager_id',
             'name',
             'description',
-            'start_date',
+            'daily_target',
             'is_active',
         ];
 
     protected $casts =
         [
-            'start_date' => 'date',
+            'daily_target' => 'integer',
             'is_active' => 'boolean',
         ];
 
-    public function user()
+    public function taskManager()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
+        return $this->belongsTo(TaskManager::class);
     }
 }

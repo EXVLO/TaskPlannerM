@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\TaskManager;
 use App\Models\User;
+use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,9 +28,15 @@ class DatabaseSeeder extends Seeder
 
         // TaskManagers for each fake user
         foreach ($users as $user) {
-            TaskManager::factory(fake()->numberBetween(1, 4))->create([
+            $managers = TaskManager::factory(fake()->numberBetween(1, 4))->create([
                 'user_id' => $user->id,
             ]);
+
+            foreach ($managers as $manager) {
+                Task::factory(fake()->numberBetween(2, 6))->create([
+                    'task_manager_id' => $manager->id,
+                ]);
+            }
         }
     }
 }
