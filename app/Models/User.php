@@ -27,4 +27,9 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_active' => 'boolean',
         ];
+
+    public function taskManagers()
+    {
+        return $this->hasMany(TaskManager::class);
+    }
 }

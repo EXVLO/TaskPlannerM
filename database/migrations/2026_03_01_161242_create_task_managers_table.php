@@ -6,17 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('task_managers', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->text('description')->nullable();
+
+            $table->date('start_date');
 
             $table->boolean('is_active')->default(true);
 
@@ -24,11 +26,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('task_managers');
     }
 };
