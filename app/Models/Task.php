@@ -28,4 +28,9 @@ class Task extends Model
     {
         return $this->belongsTo(TaskManager::class);
     }
+
+    public function entries()
+    {
+        return $this->hasMany(TaskEntry::class);
+    }
 }

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Task;
+use App\Models\TaskEntry;
 use App\Models\TaskManager;
 use App\Models\User;
-use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,21 +22,51 @@ class DatabaseSeeder extends Seeder
         // Other users
         $users = User::factory(20)->create();
 
-        // TaskManagers for Test User
-        TaskManager::factory(3)->create([
+        // Handle test user
+        $testManagers = TaskManager::factory(3)->create([
             'user_id' => $testUser->id,
         ]);
 
-        // TaskManagers for each fake user
+        foreach ($testManagers as $manager) {
+            $tasks = Task::factory(fake()->numberBetween(2, 6))->create([
+                'task_manager_id' => $manager->id,
+            ]);
+
+            foreach ($tasks as $task) {
+                $days = fake()->numberBetween(5, 15);
+
+                for ($i = 0; $i < $days; $i++) {
+                    TaskEntry::create([
+                        'task_id' => $task->id,
+                        'entry_date' => now()->subDays($i)->toDateString(),
+                        'actual_value' => fake()->numberBetween(0, 10),
+                    ]);
+                }
+            }
+        }
+
+        // Handle fake users
         foreach ($users as $user) {
             $managers = TaskManager::factory(fake()->numberBetween(1, 4))->create([
                 'user_id' => $user->id,
             ]);
 
             foreach ($managers as $manager) {
-                Task::factory(fake()->numberBetween(2, 6))->create([
+                $tasks = Task::factory(fake()->numberBetween(2, 6))->create([
                     'task_manager_id' => $manager->id,
                 ]);
+
+                foreach ($tasks as $task) {
+                    $days = fake()->numberBetween(5, 15);
+
+                    for ($i = 0; $i < $days; $i++) {
+                        TaskEntry::create([
+                            'task_id' => $task->id,
+                            'entry_date' => now()->subDays($i)->toDateString(),
+                            'actual_value' => fake()->numberBetween(0, 10),
+                        ]);
+                    }
+                }
             }
         }
     }
