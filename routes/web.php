@@ -19,8 +19,12 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->nam
 Route::get('/appsettings', [AppSettingsController::class, 'index'])->name('appsettings');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 
-Route::prefix('office')->name('office.')->group(function () {
+Route::middleware(['auth'])->prefix('office')->name('office.')->group(function () {
     Route::get('/', [OfficeController::class, 'index'])->name('index');
+
+    Route::get('/create', [OfficeController::class, 'create'])->name('create');
+    Route::post('/', [OfficeController::class, 'store'])->name('store');
+
     Route::get('/{task_manager}', [OfficeController::class, 'showTaskManager'])->name('task_managers.show');
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 });

@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskManager;
 use App\Models\Task;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfficeController extends Controller
 {
     public function index()
     {
-        $taskManagers = TaskManager::latest()->get();
+        $taskManagers = TaskManager::where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
         return view('office.index', compact('taskManagers'));
     }
@@ -27,5 +31,26 @@ class OfficeController extends Controller
     {
         // for now: just show the task details page
         return view('office.tasks.show', compact('task_manager', 'task'));
+    }
+
+    public function create()
+    {
+        return view('office.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'start_date' => ['required', 'date'],
+        ]);
+
+        TaskManager::create([
+            'name' => $validated['name'],
+            'start_date' => $validated['start_date'],
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('office.index');
     }
 }

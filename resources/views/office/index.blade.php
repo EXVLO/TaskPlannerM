@@ -5,6 +5,8 @@
 @section('content')
     <h1>Task Managers</h1>
 
+    <a href="{{ route('office.create') }}">+ Add Task Manager</a>
+
     <ul>
         @foreach($taskManagers as $taskManager)
             <li>
