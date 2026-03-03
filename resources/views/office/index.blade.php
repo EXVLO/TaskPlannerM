@@ -1,8 +1,10 @@
-<h1>Office</h1>
+@extends('layouts.app')
 
-@if($taskManagers->isEmpty())
-    <p>No task managers found.</p>
-@else
+@section('title', 'Office')
+
+@section('content')
+    <h1>Task Managers</h1>
+
     <ul>
         @foreach($taskManagers as $taskManager)
             <li>
@@ -12,4 +14,5 @@
             </li>
         @endforeach
     </ul>
-@endif
+@endsection
+

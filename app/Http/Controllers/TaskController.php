@@ -10,6 +10,6 @@ class TaskController extends Controller
     // GET /office/{task_manager}/{task}
     public function show(TaskManager $task_manager, Task $task)
     {
-        return view('office.tasks.show', compact('task_manager', 'task'));
+        return view('office.task_managers.tasks.show', compact('task_manager', 'task'));
     }
 }

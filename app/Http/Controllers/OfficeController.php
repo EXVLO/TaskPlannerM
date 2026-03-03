@@ -17,7 +17,6 @@ class OfficeController extends Controller
     // GET /office/{task_manager}
     public function showTaskManager(TaskManager $task_manager)
     {
-        // load tasks for this task manager
         $task_manager->load('tasks');
 
         return view('office.task_managers.show', compact('task_manager'));

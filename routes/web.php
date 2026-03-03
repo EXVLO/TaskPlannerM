@@ -8,7 +8,7 @@ use App\Http\Controllers\AppSettingsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TaskController;
 
-Route::view('/', 'welcome')->name('home');
+Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
@@ -24,5 +24,6 @@ Route::prefix('office')->name('office.')->group(function () {
     Route::get('/{task_manager}', [OfficeController::class, 'showTaskManager'])->name('task_managers.show');
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 });
+
 
 require __DIR__.'/settings.php';
