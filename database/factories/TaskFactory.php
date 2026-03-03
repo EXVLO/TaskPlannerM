@@ -12,6 +12,7 @@ class TaskFactory extends Factory
             'name' => fake()->words(2, true),
             'description' => fake()->sentence(),
             'daily_target' => fake()->numberBetween(1, 10),
+            'unit_type' => $this->faker->randomElement(['pages', 'minutes', 'km', 'reps']),
             'is_active' => fake()->boolean(90),
         ];
     }

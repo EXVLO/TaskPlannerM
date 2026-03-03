@@ -1,64 +1,34 @@
 @extends('layouts.app')
 
-@section('title', 'Task Manager')
+@section('title', $task_manager->name)
 
 @section('content')
+
     <h1>{{ $task_manager->name }}</h1>
 
-    <button type="button" onclick="toggleForm()">
-        + Add Task
-    </button>
+    <p>{{ $task_manager->description }}</p>
 
-    <div id="task-form" style="display:none; margin-top:15px;">
-        <form method="POST" action="{{ route('office.tasks.store', $task_manager) }}">
-            @csrf
-
-            <label>
-                Task Name:
-                <input type="text" name="name" value="{{ old('name') }}">
-            </label>
-
-            @error('name')
-            <p style="color:red;">{{ $message }}</p>
-            @enderror
-
-            <br><br>
-
-            <label>
-                Due Date:
-                <input type="date" name="due_date" value="{{ old('due_date') }}">
-            </label>
-
-            @error('due_date')
-            <p style="color:red;">{{ $message }}</p>
-            @enderror
-
-            <label>
-                Daily Target:
-                <input type="number" name="daily_target" value="{{ old('daily_target') }}">
-            </label>
-
-            @error('daily_target')
-            <p style="color:red;">{{ $message }}</p>
-            @enderror
-
-            <br><br>
-
-            <button type="submit">Create Task</button>
-        </form>
-    </div>
-
-    <script>
-        function toggleForm() {
-            const form = document.getElementById('task-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
+    <p>
+        <strong>Start Date:</strong> {{ $task_manager->start_date }}
+        |
+        <strong>Status:</strong>
+        {{ $task_manager->is_active ? 'Active' : 'Inactive' }}
+    </p>
 
     <hr>
 
+    <h2>Tasks</h2>
+
+    {{-- Add Task Button --}}
+    <p>
+        <a href="{{ route('office.tasks.create', $task_manager) }}">
+            <button type="button">+ Add Task</button>
+        </a>
+    </p>
+
+    {{-- Task List --}}
     @if($task_manager->tasks->isEmpty())
-        <p>No tasks in this task manager.</p>
+        <p>No tasks yet.</p>
     @else
         <ul>
             @foreach($task_manager->tasks as $task)
@@ -66,10 +36,14 @@
                     <a href="{{ route('office.tasks.show', [$task_manager, $task]) }}">
                         {{ $task->name }}
                     </a>
+                    ({{ $task->daily_target }} {{ $task->unit_type }})
                 </li>
             @endforeach
         </ul>
     @endif
 
-    <a href="{{ route('office.index') }}">← Back</a>
+    <br>
+
+    <a href="{{ route('office.index') }}">← Back to Task Managers</a>
+
 @endsection

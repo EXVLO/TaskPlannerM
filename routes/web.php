@@ -22,14 +22,18 @@ Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::middleware(['auth'])->prefix('office')->name('office.')->group(function () {
     Route::get('/', [OfficeController::class, 'index'])->name('index');
 
+    // Task managers
     Route::get('/create', [OfficeController::class, 'create'])->name('create');
     Route::post('/', [OfficeController::class, 'store'])->name('store');
 
     Route::get('/{task_manager}', [OfficeController::class, 'showTaskManager'])->name('task_managers.show');
-    Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
-    Route::post('/{task_manager}/tasks', [TaskController::class, 'store'])
-        ->name('tasks.store');
+    // Tasks (create + store)
+    Route::get('/{task_manager}/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/{task_manager}/tasks', [TaskController::class, 'store'])->name('tasks.store');
+
+    // Task details
+    Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 });
 
 

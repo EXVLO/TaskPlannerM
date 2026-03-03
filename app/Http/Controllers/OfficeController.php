@@ -42,12 +42,16 @@ class OfficeController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'start_date' => ['required', 'date'],
+            'is_active' => ['required', 'boolean'],
         ]);
 
         TaskManager::create([
             'name' => $validated['name'],
+            'description' => $validated['description'],
             'start_date' => $validated['start_date'],
+            'is_active' => $validated['is_active'],
             'user_id' => Auth::id(),
         ]);
 

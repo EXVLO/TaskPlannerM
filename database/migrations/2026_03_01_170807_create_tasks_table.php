@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             $table->unsignedInteger('daily_target');
+            $table->string('unit_type');
 
             $table->boolean('is_active')->default(true);
 

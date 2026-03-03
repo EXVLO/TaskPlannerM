@@ -15,6 +15,7 @@ class Task extends Model
             'name',
             'description',
             'daily_target',
+            'unit_type',
             'is_active',
         ];
 
