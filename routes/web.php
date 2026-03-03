@@ -27,6 +27,9 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     Route::get('/{task_manager}', [OfficeController::class, 'showTaskManager'])->name('task_managers.show');
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
+
+    Route::post('/{task_manager}/tasks', [TaskController::class, 'store'])
+        ->name('tasks.store');
 });
 
 
