@@ -5,6 +5,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -33,5 +35,14 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
     // Task details
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 });
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/'); // or redirect('/')
+})->middleware('auth')->name('logout');
 
 require __DIR__.'/settings.php';

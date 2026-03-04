@@ -9,7 +9,10 @@
         <a href="{{ route('news') }}">News</a>
 
         <span style="margin-left: 20px;">
-            <button type="button">Logout</button>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
         </span>
     </nav>
     <hr>
