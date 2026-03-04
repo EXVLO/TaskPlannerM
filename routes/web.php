@@ -4,6 +4,7 @@ use App\Http\Controllers\AppSettingsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -34,6 +35,16 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     // Task details
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
+
+    Route::get(
+        '/{task_manager}/{task}/tags/{tag}',
+        [TagController::class, 'show']
+    )->name('tags.show');
+
+    Route::post(
+        '/{task_manager}/{task}/tags',
+        [TagController::class, 'store']
+    )->name('tags.store');
 });
 
 Route::post('/logout', function (Request $request) {
