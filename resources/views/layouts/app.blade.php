@@ -9,6 +9,7 @@
 @include('layouts.header')
 
 <main>
+    {{ $slot ?? '' }}
     @yield('content')
 </main>
 
