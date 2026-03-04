@@ -34,6 +34,29 @@ class TagController extends Controller
         );
     }
 
+    public function destroy(TaskManager $task_manager, Task $task, Tag $tag)
+    {
+        $task->tags()->detach($tag->id);
+
+        return redirect()->back();
+    }
+
+    public function update(Request $request, TaskManager $task_manager, Task $task, Tag $tag)
+    {
+        if (Auth::id() != $task_manager->user_id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'color' => ['nullable', 'string', 'max:7'],
+        ]);
+
+        $tag->update($validated);
+
+        return redirect()->route('office.tasks.show', [$task_manager, $task]);
+    }
+
     public function store(Request $request, TaskManager $task_manager, Task $task)
     {
         if (Auth::id() != $task_manager->user_id) {

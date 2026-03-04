@@ -32,6 +32,32 @@ class TaskController extends Controller
         return view('office.task_managers.create', compact('task_manager'));
     }
 
+    public function edit(TaskManager $task_manager, Task $task)
+    {
+        return view('office.task_managers.create', compact('task_manager', 'task'));
+    }
+
+    public function update(Request $request, TaskManager $task_manager, Task $task)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'daily_target' => ['required', 'integer', 'min:1'],
+            'unit_type' => ['required', 'string', 'max:50'],
+            'is_active' => ['required', 'boolean'],
+        ]);
+
+        $task->update($validated);
+
+        return redirect()->route('office.task_managers.show', [$task_manager, $task]);
+    }
+
+    public function destroy(TaskManager $task_manager, Task $task)
+    {
+        $task->delete();
+
+        return redirect()->route('office.task_managers.show', $task_manager);
+    }
+
     public function store(Request $request, TaskManager $task_manager)
     {
         if (Auth::id() != $task_manager->user_id) {
@@ -42,7 +68,6 @@ class TaskController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'daily_target' => ['required', 'integer', 'min:1'],
             'unit_type' => ['required', 'string', 'max:50'],
-            'start_date' => ['required', 'date'],
             'is_active' => ['required', 'boolean'],
         ]);
 
