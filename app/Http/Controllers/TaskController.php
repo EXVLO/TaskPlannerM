@@ -4,24 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskManager;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     // GET /office/{task_manager}/{task}
     public function show(TaskManager $task_manager, Task $task)
     {
+        if (Auth::id() != $task_manager->user_id) {
+            abort(403, message: 'yleo');
+        }
+
         return view('office.task_managers.tasks.show', compact('task_manager', 'task'));
     }
 
     public function create(TaskManager $task_manager)
     {
+        if (Auth::id() != $task_manager->user_id) {
+            abort(403, message: 'yleo');
+        }
+
         return view('office.task_managers.create', compact('task_manager'));
     }
 
     public function store(Request $request, TaskManager $task_manager)
     {
+        if (Auth::id() != $task_manager->user_id) {
+            abort(403, message: 'yleo');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'daily_target' => ['required', 'integer', 'min:1'],
