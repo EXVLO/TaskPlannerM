@@ -11,7 +11,8 @@ class OfficeController extends Controller
 {
     public function index()
     {
-        $taskManagers = TaskManager::where('user_id', Auth::id())
+        $taskManagers = Auth::user()
+            ->taskManagers()
             ->latest()
             ->get();
 
@@ -35,6 +36,10 @@ class OfficeController extends Controller
     {
         if (Auth::id() != $task_manager->user_id) {
             abort(403, message: 'yleo');
+        }
+
+        if ($task->task_manager_id != $task_manager->id) {
+            abort(404);
         }
 
         // for now: just show the task details page

@@ -12,6 +12,10 @@ class TaskController extends Controller
     // GET /office/{task_manager}/{task}
     public function show(TaskManager $task_manager, Task $task)
     {
+        if ($task->task_manager_id != $task_manager->id) {
+            abort(404);
+        }
+
         if (Auth::id() != $task_manager->user_id) {
             abort(403, message: 'yleo');
         }
