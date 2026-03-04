@@ -1,9 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'task')
+@section('title', 'Task')
 
 @section('content')
-    <h1>Task Details</h1>
+
+    <h2>Task Information</h2>
+
+    <p>
+        <strong>Task Manager:</strong> {{ $task_manager->name }}
+    </p>
+
+    <p>
+        <strong>Task:</strong> {{ $task->name }}
+    </p>
+
+    <p>
+        <strong>Daily Target:</strong> {{ $task->daily_target }} {{ $task->unit_type }}
+    </p>
+
+    <hr>
+
 
     <h3>Add Tag</h3>
 
@@ -11,23 +27,56 @@
         @csrf
 
         <input type="text" name="name" placeholder="Tag name" required>
-        <input type="color" name="color">
+        <input type="color" name="color" value="#000000">
 
         <button type="submit">Add</button>
     </form>
 
+    <hr>
+
+
     <h3>Tags</h3>
 
-    @foreach ($task->tags as $tag)
-        <a href="{{ route('office.tags.show', [$task_manager, $task, $tag]) }}">
-            {{ $tag->name }}
-        </a>
-    @endforeach
+    @if($task->tags->isEmpty())
+        <p>No tags yet.</p>
+    @else
+        <ul>
+            @foreach ($task->tags as $tag)
+                <li>
 
-    <p>Task Manager: {{ $task_manager->name }}</p>
-    <p>Task: {{ $task->name }}</p>
+                    {{-- Update Tag --}}
+                    <form method="POST"
+                          action="{{ route('office.tags.update', [$task_manager, $task, $tag]) }}"
+                          style="display:inline;">
+                        @csrf
+                        @method('PATCH')
+
+                        <input type="text" name="name" value="{{ $tag->name }}" style="width:120px">
+                        <input type="color" name="color" value="{{ $tag->color }}">
+
+                        <button type="submit">Update</button>
+                    </form>
+
+                    {{-- Delete Tag --}}
+                    <form method="POST"
+                          action="{{ route('office.tags.destroy', [$task_manager, $task, $tag]) }}"
+                          style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit">Delete</button>
+                    </form>
+
+                </li>
+            @endforeach
+        </ul>
+    @endif
+
+
+    <br>
 
     <a href="{{ route('office.task_managers.show', $task_manager) }}">
         ← Back to Tasks
     </a>
+
 @endsection

@@ -19,24 +19,38 @@
 
     <h2>Tasks</h2>
 
-    {{-- Add Task Button --}}
     <p>
         <a href="{{ route('office.tasks.create', $task_manager) }}">
             <button type="button">+ Add Task</button>
         </a>
     </p>
 
-    {{-- Task List --}}
     @if($task_manager->tasks->isEmpty())
         <p>No tasks yet.</p>
     @else
         <ul>
             @foreach($task_manager->tasks as $task)
                 <li>
+
                     <a href="{{ route('office.tasks.show', [$task_manager, $task]) }}">
                         {{ $task->name }}
                     </a>
+
                     ({{ $task->daily_target }} {{ $task->unit_type }})
+
+                    <a href="{{ route('office.tasks.edit', [$task_manager,$task]) }}">
+                        Edit
+                    </a>
+
+                    <form method="POST"
+                          action="{{ route('office.tasks.destroy', [$task_manager,$task]) }}"
+                          style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit">Delete</button>
+                    </form>
+
                 </li>
             @endforeach
         </ul>
