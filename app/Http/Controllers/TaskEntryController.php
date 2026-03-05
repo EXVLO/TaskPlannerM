@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskEntry;
+use App\Models\TaskManager;
 use Illuminate\Http\Request;
 
 class TaskEntryController extends Controller
 {
-    public function store(Request $request, Task $task)
+    public function store(Request $request, TaskManager $task_manager, Task $task)
     {
         $request->validate([
             'entry_date' => 'required|date',

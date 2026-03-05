@@ -19,6 +19,8 @@ class TaskController extends Controller
             abort(403);
         }
 
+        $task->load('entries');
+
         return view('office.task_managers.tasks.show', compact('task_manager', 'task'));
     }
 

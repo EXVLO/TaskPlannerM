@@ -75,6 +75,47 @@
 
     <br>
 
+    <h3>Add Entry</h3>
+
+    <form method="POST" action="{{ route('office.tasks.entries.store', [$task_manager, $task]) }}">
+        @csrf
+
+        <label>Date</label>
+        <input type="date" name="entry_date" value="{{ now()->toDateString() }}" required>
+
+        <label>Value</label>
+        <input type="number" name="actual_value" required>
+
+        <button type="submit">Save</button>
+
+    </form>
+
+    <h3>Entries</h3>
+
+    @if($task->entries->isEmpty())
+        <p>No entries yet.</p>
+    @else
+
+        <table border="1">
+
+            <tr>
+                <th>Date</th>
+                <th>Value</th>
+            </tr>
+
+            @foreach ($task->entries->sortByDesc('entry_date') as $entry)
+
+                <tr>
+                    <td>{{ $entry->entry_date }}</td>
+                    <td>{{ $entry->actual_value }}</td>
+                </tr>
+
+            @endforeach
+
+        </table>
+
+    @endif
+
     <a href="{{ route('office.task_managers.show', $task_manager) }}">
         ← Back to Tasks
     </a>
