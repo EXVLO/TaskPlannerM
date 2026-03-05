@@ -30,6 +30,7 @@
         <input type="color" name="color" value="#000000">
 
         <button type="submit">Add</button>
+
     </form>
 
     <hr>
@@ -40,15 +41,17 @@
     @if($task->tags->isEmpty())
         <p>No tags yet.</p>
     @else
+
         <ul>
+
             @foreach ($task->tags as $tag)
 
                 <li>
 
-                    {{-- Update Tag --}}
                     <form method="POST"
                           action="{{ route('office.tags.update', [$task_manager, $task, $tag]) }}"
                           style="display:inline;">
+
                         @csrf
                         @method('PATCH')
 
@@ -62,23 +65,27 @@
                                value="{{ $tag->color }}">
 
                         <button type="submit">Update</button>
+
                     </form>
 
 
-                    {{-- Delete Tag --}}
                     <form method="POST"
                           action="{{ route('office.tags.destroy', [$task_manager, $task, $tag]) }}"
                           style="display:inline;">
+
                         @csrf
                         @method('DELETE')
 
                         <button type="submit">Delete</button>
+
                     </form>
 
                 </li>
 
             @endforeach
+
         </ul>
+
     @endif
 
 
@@ -93,12 +100,14 @@
         @csrf
 
         <label>Date</label>
+
         <input type="date"
                name="entry_date"
                value="{{ now()->toDateString() }}"
                required>
 
         <label>Value</label>
+
         <input type="number"
                name="actual_value"
                style="width:80px"
@@ -123,16 +132,22 @@
             <tr>
                 <th>Date</th>
                 <th>Value</th>
+                <th>Target</th>
+                <th>%</th>
                 <th>Actions</th>
             </tr>
 
             @foreach ($task->entries->sortByDesc('entry_date') as $entry)
 
+                @php
+                    $percent = $task->daily_target > 0
+                    ? round(($entry->actual_value / $task->daily_target) * 100)
+                    : 0;
+                @endphp
+
                 <tr>
 
-                    <td>
-                        {{ $entry->entry_date->format('Y-m-d') }}
-                    </td>
+                    <td>{{ $entry->entry_date->format('Y-m-d') }}</td>
 
                     <td>
 
@@ -146,13 +161,23 @@
                             <input type="number"
                                    name="actual_value"
                                    value="{{ $entry->actual_value }}"
-                                   style="width:80px">
+                                   style="width:70px">
 
-                            <button type="submit">
-                                Update
-                            </button>
+                            <button type="submit">Update</button>
 
                         </form>
+
+                    </td>
+
+                    <td>{{ $task->daily_target }}</td>
+
+                    <td>
+
+                        @if($percent >= 100)
+                            <span style="color:green">{{ $percent }}%</span>
+                        @else
+                            <span style="color:red">{{ $percent }}%</span>
+                        @endif
 
                     </td>
 
@@ -165,9 +190,7 @@
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit">
-                                Delete
-                            </button>
+                            <button type="submit">Delete</button>
 
                         </form>
 
@@ -182,7 +205,104 @@
     @endif
 
 
+    <hr>
+
+
+    <h3>Weekly Progress</h3>
+
+    @php
+
+        $weekEntries = $task->entries
+        ->where('entry_date', '>=', now()->subDays(7));
+
+    @endphp
+
+
+    <table border="1">
+
+        <tr>
+            <th>Date</th>
+            <th>Progress</th>
+        </tr>
+
+        @foreach($weekEntries as $entry)
+
+            @php
+                $percent = $task->daily_target > 0
+                ? round(($entry->actual_value / $task->daily_target) * 100)
+                : 0;
+            @endphp
+
+            <tr>
+
+                <td>{{ $entry->entry_date->format('Y-m-d') }}</td>
+
+                <td>
+
+                    <div style="width:200px;border:1px solid #000;height:20px">
+
+                        <div style="
+width:{{ min($percent,100) }}%;
+height:100%;
+background-color:green;
+"></div>
+
+                    </div>
+
+                    {{ $percent }}%
+
+                </td>
+
+            </tr>
+
+        @endforeach
+
+    </table>
+
+
+    <hr>
+
+
+    <h3>Monthly Progress</h3>
+
+    @php
+
+        $monthEntries = $task->entries
+        ->where('entry_date', '>=', now()->subDays(30));
+
+        $totalDone = $monthEntries->sum('actual_value');
+
+        $required = $task->daily_target * 30;
+
+        $monthlyPercent = $required > 0
+        ? round(($totalDone / $required) * 100)
+        : 0;
+
+    @endphp
+
+
+    <p>
+        <strong>Total Done (30 days):</strong> {{ $totalDone }}
+    </p>
+
+    <p>
+        <strong>Required:</strong> {{ $required }}
+    </p>
+
+    <p>
+        <strong>Completion:</strong>
+
+        @if($monthlyPercent >= 100)
+            <span style="color:green">{{ $monthlyPercent }}%</span>
+        @else
+            <span style="color:red">{{ $monthlyPercent }}%</span>
+        @endif
+
+    </p>
+
+
     <br>
+
 
     <a href="{{ route('office.task_managers.show', $task_manager) }}">
         ← Back to Tasks
