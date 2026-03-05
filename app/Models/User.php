@@ -57,14 +57,21 @@ class User extends Authenticatable
     public function initials(): string
     {
         return Str::of($this->name)
+            ->trim()
             ->explode(' ')
+            ->filter()
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn ($w) => Str::substr($w, 0, 1))
             ->implode('');
     }
 
     public function taskManagers()
     {
         return $this->hasMany(TaskManager::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
     }
 }
