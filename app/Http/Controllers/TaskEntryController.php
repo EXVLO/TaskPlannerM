@@ -28,4 +28,24 @@ class TaskEntryController extends Controller
 
         return back();
     }
+
+    public function update(Request $request, TaskManager $task_manager, Task $task, TaskEntry $entry)
+    {
+        $request->validate([
+            'actual_value' => 'required|integer|min:0',
+        ]);
+
+        $entry->update([
+            'actual_value' => $request->actual_value,
+        ]);
+
+        return back();
+    }
+
+    public function destroy(TaskManager $task_manager, Task $task, TaskEntry $entry)
+    {
+        $entry->delete();
+
+        return back();
+    }
 }
