@@ -132,8 +132,6 @@
             <tr>
                 <th>Date</th>
                 <th>Value</th>
-                <th>Target</th>
-                <th>%</th>
                 <th>Actions</th>
             </tr>
 
@@ -143,11 +141,35 @@
                     $percent = $task->daily_target > 0
                     ? round(($entry->actual_value / $task->daily_target) * 100)
                     : 0;
+
+                    $color = $percent >= 100 ? 'green' : 'red';
                 @endphp
 
                 <tr>
 
                     <td>{{ $entry->entry_date->format('Y-m-d') }}</td>
+
+                    <td>
+
+                        <input type="number"
+                               value="{{ $entry->actual_value }}"
+                               style="width:70px"
+                               readonly>
+
+                        <span style="
+display:inline-block;
+padding:3px 6px;
+margin-left:6px;
+background:#eee;
+border-radius:4px;
+color:{{ $color }};
+font-weight:bold;
+">
+{{ $percent }}%
+</span>
+
+                    </td>
+
 
                     <td>
 
@@ -158,34 +180,18 @@
                             @csrf
                             @method('PATCH')
 
-                            <input type="number"
+                            <input type="hidden"
                                    name="actual_value"
-                                   value="{{ $entry->actual_value }}"
-                                   style="width:70px">
+                                   value="{{ $entry->actual_value }}">
 
                             <button type="submit">Update</button>
 
                         </form>
 
-                    </td>
-
-                    <td>{{ $task->daily_target }}</td>
-
-                    <td>
-
-                        @if($percent >= 100)
-                            <span style="color:green">{{ $percent }}%</span>
-                        @else
-                            <span style="color:red">{{ $percent }}%</span>
-                        @endif
-
-                    </td>
-
-                    <td>
 
                         <form method="POST"
                               action="{{ route('office.tasks.entries.destroy', [$task_manager, $task, $entry]) }}"
-                              style="display:inline;">
+                              style="display:inline;margin-left:6px;">
 
                             @csrf
                             @method('DELETE')
@@ -211,53 +217,33 @@
     <h3>Weekly Progress</h3>
 
     @php
+        $weekEntries = $task->entries->where('entry_date', '>=', now()->subDays(7));
+        $weekDone = $weekEntries->sum('actual_value');
+        $weekRequired = $task->daily_target * 7;
 
-        $weekEntries = $task->entries
-        ->where('entry_date', '>=', now()->subDays(7));
-
+        $weekPercent = $weekRequired > 0
+        ? round(($weekDone / $weekRequired) * 100)
+        : 0;
     @endphp
 
+    <p>
+        <strong>This week:</strong> {{ $weekDone }} / {{ $weekRequired }}
+    </p>
 
-    <table border="1">
+    <p>
+        <strong>Weekly Completion:</strong>
 
-        <tr>
-            <th>Date</th>
-            <th>Progress</th>
-        </tr>
+        @if($weekPercent >= 100)
+            <span style="color:green">{{ $weekPercent }}%</span>
+        @else
+            <span style="color:red">{{ $weekPercent }}%</span>
+        @endif
 
-        @foreach($weekEntries as $entry)
+    </p>
 
-            @php
-                $percent = $task->daily_target > 0
-                ? round(($entry->actual_value / $task->daily_target) * 100)
-                : 0;
-            @endphp
-
-            <tr>
-
-                <td>{{ $entry->entry_date->format('Y-m-d') }}</td>
-
-                <td>
-
-                    <div style="width:200px;border:1px solid #000;height:20px">
-
-                        <div style="
-width:{{ min($percent,100) }}%;
-height:100%;
-background-color:green;
-"></div>
-
-                    </div>
-
-                    {{ $percent }}%
-
-                </td>
-
-            </tr>
-
-        @endforeach
-
-    </table>
+    <div style="width:300px;border:1px solid black;height:25px">
+        <div style="width:{{ min($weekPercent,100) }}%;height:100%;background-color:green;"></div>
+    </div>
 
 
     <hr>
@@ -266,43 +252,36 @@ background-color:green;
     <h3>Monthly Progress</h3>
 
     @php
+        $monthEntries = $task->entries->where('entry_date', '>=', now()->subDays(30));
+        $monthDone = $monthEntries->sum('actual_value');
+        $monthRequired = $task->daily_target * 30;
 
-        $monthEntries = $task->entries
-        ->where('entry_date', '>=', now()->subDays(30));
-
-        $totalDone = $monthEntries->sum('actual_value');
-
-        $required = $task->daily_target * 30;
-
-        $monthlyPercent = $required > 0
-        ? round(($totalDone / $required) * 100)
+        $monthPercent = $monthRequired > 0
+        ? round(($monthDone / $monthRequired) * 100)
         : 0;
-
     @endphp
 
-
     <p>
-        <strong>Total Done (30 days):</strong> {{ $totalDone }}
+        <strong>This month:</strong> {{ $monthDone }} / {{ $monthRequired }}
     </p>
 
     <p>
-        <strong>Required:</strong> {{ $required }}
-    </p>
+        <strong>Monthly Completion:</strong>
 
-    <p>
-        <strong>Completion:</strong>
-
-        @if($monthlyPercent >= 100)
-            <span style="color:green">{{ $monthlyPercent }}%</span>
+        @if($monthPercent >= 100)
+            <span style="color:green">{{ $monthPercent }}%</span>
         @else
-            <span style="color:red">{{ $monthlyPercent }}%</span>
+            <span style="color:red">{{ $monthPercent }}%</span>
         @endif
 
     </p>
 
+    <div style="width:300px;border:1px solid black;height:25px">
+        <div style="width:{{ min($monthPercent,100) }}%;height:100%;background-color:green;"></div>
+    </div>
+
 
     <br>
-
 
     <a href="{{ route('office.task_managers.show', $task_manager) }}">
         ← Back to Tasks
