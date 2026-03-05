@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    // GET /office/{task_manager}/{task}
     public function show(TaskManager $task_manager, Task $task)
     {
-        if ($task->task_manager_id != $task_manager->id) {
+        if ($task->task_manager_id !== $task_manager->id) {
             abort(404);
         }
 
-        if (Auth::id() != $task_manager->user_id) {
-            abort(403, message: 'yleo');
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
         }
 
         return view('office.task_managers.tasks.show', compact('task_manager', 'task'));
@@ -25,8 +24,8 @@ class TaskController extends Controller
 
     public function create(TaskManager $task_manager)
     {
-        if (Auth::id() != $task_manager->user_id) {
-            abort(403, message: 'yleo');
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
         }
 
         return view('office.task_managers.create', compact('task_manager'));
@@ -34,11 +33,27 @@ class TaskController extends Controller
 
     public function edit(TaskManager $task_manager, Task $task)
     {
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('office.task_managers.create', compact('task_manager', 'task'));
     }
 
     public function update(Request $request, TaskManager $task_manager, Task $task)
     {
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'daily_target' => ['required', 'integer', 'min:1'],
@@ -53,6 +68,14 @@ class TaskController extends Controller
 
     public function destroy(TaskManager $task_manager, Task $task)
     {
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $task->delete();
 
         return redirect()->route('office.task_managers.show', $task_manager);
@@ -60,8 +83,8 @@ class TaskController extends Controller
 
     public function store(Request $request, TaskManager $task_manager)
     {
-        if (Auth::id() != $task_manager->user_id) {
-            abort(403, message: 'yleo');
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
         }
 
         $validated = $request->validate([

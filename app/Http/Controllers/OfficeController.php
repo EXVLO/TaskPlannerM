@@ -31,21 +31,6 @@ class OfficeController extends Controller
         return view('office.task_managers.show', compact('task_manager'));
     }
 
-    // GET /office/{task_manager}/{task}
-    public function showTask(TaskManager $task_manager, Task $task)
-    {
-        if (Auth::id() != $task_manager->user_id) {
-            abort(403, message: 'yleo');
-        }
-
-        if ($task->task_manager_id != $task_manager->id) {
-            abort(404);
-        }
-
-        // for now: just show the task details page
-        return view('office.tasks.show', compact('task_manager', 'task'));
-    }
-
     public function create()
     {
         return view('office.create');

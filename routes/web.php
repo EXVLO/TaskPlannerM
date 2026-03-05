@@ -3,11 +3,11 @@
 use App\Http\Controllers\AppSettingsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TagController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -19,7 +19,6 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->nam
 
 Route::middleware(['auth'])->get('/appsettings', [AppSettingsController::class, 'index'])->name('appsettings');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
-
 
 Route::middleware(['auth'])->prefix('office')->name('office.')->group(function () {
 
@@ -37,7 +36,6 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     Route::get('/{task_manager}', [OfficeController::class, 'showTaskManager'])->name('task_managers.show');
 
-
     // Tasks
     Route::get('/{task_manager}/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('/{task_manager}/tasks', [TaskController::class, 'store'])->name('tasks.store');
@@ -50,7 +48,6 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
-
     // Tags
     Route::get('/{task_manager}/{task}/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
@@ -62,7 +59,6 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
 });
 
-
 Route::post('/logout', function (Request $request) {
 
     Auth::logout();
@@ -73,6 +69,5 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 
 })->middleware('auth')->name('logout');
-
 
 require __DIR__.'/settings.php';

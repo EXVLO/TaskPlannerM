@@ -12,30 +12,38 @@ class TagController extends Controller
 {
     public function show(TaskManager $task_manager, Task $task, Tag $tag)
     {
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if (! $task->tags()->where('tags.id', $tag->id)->exists()) {
+            abort(404);
+        }
+
         return view(
             'office.task_managers.tasks.tags.show',
             compact('task_manager', 'task', 'tag')
         );
     }
 
-    public function create(TaskManager $task_manager, Task $task)
+    public function destroy(TaskManager $task_manager, Task $task, Tag $tag)
     {
-        if (Auth::id() != $task_manager->user_id) {
+        if ($task_manager->user_id !== Auth::id()) {
             abort(403);
         }
 
-        if ($task->task_manager_id != $task_manager->id) {
+        if ($task->task_manager_id !== $task_manager->id) {
             abort(404);
         }
 
-        return view(
-            'office.task_managers.tasks.tags.create',
-            compact('task_manager', 'task')
-        );
-    }
+        if (! $task->tags()->where('tags.id', $tag->id)->exists()) {
+            abort(404);
+        }
 
-    public function destroy(TaskManager $task_manager, Task $task, Tag $tag)
-    {
         $task->tags()->detach($tag->id);
 
         return redirect()->back();
@@ -43,7 +51,15 @@ class TagController extends Controller
 
     public function update(Request $request, TaskManager $task_manager, Task $task, Tag $tag)
     {
-        if (Auth::id() != $task_manager->user_id) {
+        if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if ($tag->user_id !== Auth::id()) {
             abort(403);
         }
 
@@ -59,11 +75,11 @@ class TagController extends Controller
 
     public function store(Request $request, TaskManager $task_manager, Task $task)
     {
-        if (Auth::id() != $task_manager->user_id) {
+        if ($task_manager->user_id !== Auth::id()) {
             abort(403);
         }
 
-        if ($task->task_manager_id != $task_manager->id) {
+        if ($task->task_manager_id !== $task_manager->id) {
             abort(404);
         }
 
@@ -84,9 +100,6 @@ class TagController extends Controller
 
         $task->tags()->syncWithoutDetaching([$tag->id]);
 
-        return redirect()->route(
-            'office.tasks.show',
-            [$task_manager, $task]
-        );
+        return redirect()->route('office.tasks.show', [$task_manager, $task]);
     }
 }
