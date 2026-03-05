@@ -63,6 +63,14 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
         '/{task_manager}/{task}/entry',
         [TaskEntryController::class, 'store']
     )->name('tasks.entries.store');
+
+    Route::patch('/{task_manager}/{task}/entry/{entry}',
+        [TaskEntryController::class, 'update']
+    )->name('tasks.entries.update');
+
+    Route::delete('/{task_manager}/{task}/entry/{entry}',
+        [TaskEntryController::class, 'destroy']
+    )->name('tasks.entries.destroy');
 });
 
 Route::post('/logout', function (Request $request) {
