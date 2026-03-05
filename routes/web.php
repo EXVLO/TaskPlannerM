@@ -5,6 +5,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,11 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     Route::delete('/{task_manager}/{task}/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 
+    // Task Entry
+    Route::post(
+        '/{task_manager}/{task}/entry',
+        [TaskEntryController::class, 'store']
+    )->name('tasks.entries.store');
 });
 
 Route::post('/logout', function (Request $request) {
