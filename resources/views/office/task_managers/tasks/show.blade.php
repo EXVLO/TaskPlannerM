@@ -42,6 +42,7 @@
     @else
         <ul>
             @foreach ($task->tags as $tag)
+
                 <li>
 
                     {{-- Update Tag --}}
@@ -51,11 +52,18 @@
                         @csrf
                         @method('PATCH')
 
-                        <input type="text" name="name" value="{{ $tag->name }}" style="width:120px">
-                        <input type="color" name="color" value="{{ $tag->color }}">
+                        <input type="text"
+                               name="name"
+                               value="{{ $tag->name }}"
+                               style="width:120px">
+
+                        <input type="color"
+                               name="color"
+                               value="{{ $tag->color }}">
 
                         <button type="submit">Update</button>
                     </form>
+
 
                     {{-- Delete Tag --}}
                     <form method="POST"
@@ -68,27 +76,41 @@
                     </form>
 
                 </li>
+
             @endforeach
         </ul>
     @endif
 
 
-    <br>
+    <hr>
+
 
     <h3>Add Entry</h3>
 
-    <form method="POST" action="{{ route('office.tasks.entries.store', [$task_manager, $task]) }}">
+    <form method="POST"
+          action="{{ route('office.tasks.entries.store', [$task_manager, $task]) }}">
+
         @csrf
 
         <label>Date</label>
-        <input type="date" name="entry_date" value="{{ now()->toDateString() }}" required>
+        <input type="date"
+               name="entry_date"
+               value="{{ now()->toDateString() }}"
+               required>
 
         <label>Value</label>
-        <input type="number" name="actual_value" required>
+        <input type="number"
+               name="actual_value"
+               style="width:80px"
+               required>
 
         <button type="submit">Save</button>
 
     </form>
+
+
+    <hr>
+
 
     <h3>Entries</h3>
 
@@ -101,13 +123,56 @@
             <tr>
                 <th>Date</th>
                 <th>Value</th>
+                <th>Actions</th>
             </tr>
 
             @foreach ($task->entries->sortByDesc('entry_date') as $entry)
 
                 <tr>
-                    <td>{{ $entry->entry_date }}</td>
-                    <td>{{ $entry->actual_value }}</td>
+
+                    <td>
+                        {{ $entry->entry_date->format('Y-m-d') }}
+                    </td>
+
+                    <td>
+
+                        <form method="POST"
+                              action="{{ route('office.tasks.entries.update', [$task_manager, $task, $entry]) }}"
+                              style="display:inline;">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="number"
+                                   name="actual_value"
+                                   value="{{ $entry->actual_value }}"
+                                   style="width:80px">
+
+                            <button type="submit">
+                                Update
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                    <td>
+
+                        <form method="POST"
+                              action="{{ route('office.tasks.entries.destroy', [$task_manager, $task, $entry]) }}"
+                              style="display:inline;">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </td>
+
                 </tr>
 
             @endforeach
@@ -115,6 +180,9 @@
         </table>
 
     @endif
+
+
+    <br>
 
     <a href="{{ route('office.task_managers.show', $task_manager) }}">
         ← Back to Tasks
