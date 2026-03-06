@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', function () {
+        return redirect()->route('home');
+    })->name('dashboard');
 });
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
