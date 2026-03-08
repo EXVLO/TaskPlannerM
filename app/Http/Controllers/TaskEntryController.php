@@ -16,15 +16,21 @@ class TaskEntryController extends Controller
             'actual_value' => 'required|integer|min:0',
         ]);
 
-        TaskEntry::updateOrCreate(
-            [
+        $entry = TaskEntry::where('task_id', $task->id)
+            ->whereDate('entry_date', $request->entry_date)
+            ->first();
+
+        if ($entry) {
+            $entry->update([
+                'actual_value' => $request->actual_value,
+            ]);
+        } else {
+            TaskEntry::create([
                 'task_id' => $task->id,
                 'entry_date' => $request->entry_date,
-            ],
-            [
                 'actual_value' => $request->actual_value,
-            ]
-        );
+            ]);
+        }
 
         return back();
     }
