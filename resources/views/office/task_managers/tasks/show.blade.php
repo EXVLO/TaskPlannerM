@@ -317,80 +317,37 @@
 
         <div class="card">
 
-            <h3>Add Tag</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
 
-            <form method="POST"
-                  action="{{ route('office.tags.store', [$task_manager, $task]) }}"
-                  class="section-row-form">
+                <h3 style="margin:0">Tags</h3>
 
-                @csrf
+                <a href="{{ route('office.tags.index', [$task_manager,$task]) }}"
+                   class="btn btn-update">
+                    Manage Tags
+                </a>
 
-                <input type="text"
-                       name="name"
-                       placeholder="Tag name"
-                       required>
-
-                <input type="color"
-                       name="color"
-                       value="#000000">
-
-                <button class="btn btn-save" type="submit">Add Tag</button>
-
-            </form>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Tags</h3>
+            </div>
 
             @if($task->tags->isEmpty())
 
-                <p>No tags yet.</p>
+                <p>No tags attached.</p>
 
             @else
 
-                <div class="tags-list">
+                <div style="display:flex;flex-wrap:wrap;gap:10px">
 
                     @foreach ($task->tags as $tag)
 
-                        <div class="tag-row">
-
-                            <div class="tag-preview">
-                                <div class="tag-color-box" style="background: {{ $tag->color }}"></div>
-                                <span class="tag-name">{{ $tag->name }}</span>
-                            </div>
-
-                            <form method="POST"
-                                  action="{{ route('office.tags.update', [$task_manager, $task, $tag]) }}"
-                                  class="tag-form">
-
-                                @csrf
-                                @method('PATCH')
-
-                                <input type="text"
-                                       name="name"
-                                       value="{{ $tag->name }}"
-                                       required>
-
-                                <input type="color"
-                                       name="color"
-                                       value="{{ $tag->color }}">
-
-                                <button class="btn btn-update" type="submit">Update</button>
-
-                            </form>
-
-                            <form method="POST"
-                                  action="{{ route('office.tags.destroy', [$task_manager, $task, $tag]) }}">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button class="btn btn-delete" type="submit">Delete</button>
-
-                            </form>
-
+                        <div style="
+                    background: {{ $tag->color }};
+                    color:white;
+                    padding:6px 12px;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;
+                    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+                ">
+                            {{ $tag->name }}
                         </div>
 
                     @endforeach
