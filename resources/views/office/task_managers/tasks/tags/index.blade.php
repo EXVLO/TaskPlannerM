@@ -6,10 +6,6 @@
 
     <style>
 
-        body{
-            background:#f8fafc;
-        }
-
         .container{
             max-width:900px;
             margin:auto;
@@ -17,27 +13,30 @@
         }
 
         .card{
-            background:white;
+            background:#111827;
             padding:22px;
-            border-radius:14px;
+            border-radius:12px;
             margin-bottom:20px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.07);
+            border:1px solid #1f2937;
+            box-shadow:0 8px 20px rgba(0,0,0,0.35);
         }
 
-        h2{
-            margin-bottom:8px;
+        h2,h3{
+            color:#f9fafb;
         }
 
-        h3{
-            margin-top:0;
+        p{
+            color:#9ca3af;
         }
 
         input[type="text"],
         input[type="color"]{
             padding:8px 10px;
             border-radius:8px;
-            border:1px solid #d1d5db;
+            border:1px solid #374151;
             font-size:14px;
+            background:#0b1220;
+            color:#e5e7eb;
         }
 
         input[type="text"]:focus{
@@ -55,30 +54,24 @@
         }
 
         .btn-add{
-            background:#059669;
+            background:linear-gradient(135deg,#059669,#047857);
             color:white;
-        }
-
-        .btn-add:hover{
-            background:#047857;
         }
 
         .btn-update{
-            background:#2563eb;
+            background:linear-gradient(135deg,#2563eb,#1d4ed8);
             color:white;
-        }
-
-        .btn-update:hover{
-            background:#1d4ed8;
         }
 
         .btn-delete{
-            background:#dc2626;
+            background:linear-gradient(135deg,#ef4444,#b91c1c);
             color:white;
         }
 
+        .btn-add:hover,
+        .btn-update:hover,
         .btn-delete:hover{
-            background:#b91c1c;
+            transform:translateY(-1px);
         }
 
         table{
@@ -88,16 +81,17 @@
 
         th, td{
             padding:10px;
-            border:1px solid #eee;
+            border:1px solid #1f2937;
             text-align:center;
         }
 
         th{
-            background:#f3f4f6;
+            background:#1f2937;
+            color:#f3f4f6;
         }
 
         tr:hover{
-            background:#fafafa;
+            background:#172033;
         }
 
         .tag-preview{
@@ -109,14 +103,14 @@
         .tag-color-box{
             width:22px;
             height:22px;
-            border-radius:4px;
-            border:1px solid #aaa;
+            border-radius:6px;
+            border:1px solid #374151;
         }
 
         .success{
-            background:#dcfce7;
-            color:#166534;
-            border:1px solid #bbf7d0;
+            background:#052e16;
+            color:#4ade80;
+            border:1px solid #14532d;
             padding:12px 16px;
             border-radius:10px;
             margin-bottom:16px;
@@ -126,13 +120,65 @@
         .back{
             display:inline-block;
             margin-top:10px;
-            color:#2563eb;
+            color:#60a5fa;
             font-weight:600;
             text-decoration:none;
         }
 
         .back:hover{
             opacity:0.8;
+        }
+
+        .page-title{
+            margin:0 0 18px 0;
+            font-size:40px;
+            font-weight:800;
+            letter-spacing:-0.6px;
+            color:#f9fafb;
+            position:relative;
+            display:inline-block;
+        }
+
+        .page-title::after{
+            content:'';
+            display:block;
+            width:70%;
+            height:4px;
+            margin-top:8px;
+            border-radius:999px;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 14px rgba(59,130,246,0.35);
+        }
+
+        .section-title{
+            margin:0 0 18px 0;
+            font-size:28px;
+            font-weight:800;
+            letter-spacing:-0.4px;
+            color:#f9fafb;
+            padding-left:14px;
+            border-left:4px solid #3b82f6;
+            position:relative;
+        }
+
+        .section-title::before{
+            content:'';
+            position:absolute;
+            left:-4px;
+            top:0;
+            bottom:0;
+            width:4px;
+            border-radius:999px;
+            background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 12px rgba(59,130,246,0.4);
+        }
+
+        .section-subtitle{
+            margin:-8px 0 16px 14px;
+            color:#94a3b8;
+            font-size:13px;
+            font-weight:500;
+            letter-spacing:0.2px;
         }
 
     </style>
@@ -168,7 +214,7 @@
 
         <div class="card">
 
-            <h2>Manage Tags</h2>
+            <h2 class="page-title">Manage Tags</h2>
 
             <p>
                 Task Manager: <strong>{{ $task_manager->name }}</strong>
@@ -183,7 +229,8 @@
 
         <div class="card">
 
-            <h3>Add Tag</h3>
+            <h3 class="section-title">Add Tag</h3>
+            <p class="section-subtitle">Create a new label for this task.</p>
 
             <form method="POST"
                   action="{{ route('office.tags.store',[$task_manager,$task]) }}"
@@ -211,7 +258,8 @@
 
         <div class="card">
 
-            <h3>Task Tags</h3>
+            <h3 class="section-title">Task Tags</h3>
+            <p class="section-subtitle">Edit, recolor, or detach existing labels.</p>
 
             @if($tags->isEmpty())
 
