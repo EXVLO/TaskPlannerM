@@ -5,148 +5,61 @@
 @section('content')
 
     <style>
-
-        body{
-            background:#f8fafc;
-        }
-
         .container{
-            max-width:950px;
+            max-width:900px;
             margin:auto;
             font-family:Arial, sans-serif;
-            padding:20px 0 40px 0;
         }
+
+        p{
+            color:#9ca3af;
+        }
+
+        /* HEADER */
 
         .task-header{
             background:linear-gradient(135deg,#2563eb,#4f46e5);
             color:white;
-            padding:28px;
+            padding:30px;
             border-radius:18px;
             margin-bottom:24px;
-            box-shadow:0 12px 30px rgba(37,99,235,0.22);
-            transition:transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .task-header:hover{
-            transform:translateY(-2px);
-            box-shadow:0 18px 38px rgba(37,99,235,0.28);
+            box-shadow:0 18px 40px rgba(37,99,235,0.35);
         }
 
         .task-title{
             font-size:38px;
             font-weight:800;
-            margin:0 0 10px 0;
-            letter-spacing:0.2px;
+            margin-bottom:8px;
         }
 
         .task-meta{
             font-size:15px;
-            opacity:0.95;
-            line-height:1.7;
+            color:#9ca3af;
         }
+
+        .task-meta strong{
+            color:#e5e7eb;
+        }
+
+        /* CARDS */
 
         .card{
-            background:white;
-            padding:22px;
+            background:#111827;
+            padding:24px;
             border-radius:16px;
-            margin-bottom:20px;
-            box-shadow:0 6px 20px rgba(15,23,42,0.07);
-            border:1px solid #eef2f7;
-            transition:transform 0.18s ease, box-shadow 0.18s ease;
-        }
-
-        .card:hover{
-            transform:translateY(-1px);
-            box-shadow:0 10px 24px rgba(15,23,42,0.10);
+            margin-bottom:22px;
+            border:1px solid #1f2937;
+            box-shadow:0 12px 30px rgba(0,0,0,0.55);
         }
 
         .card h3{
-            margin:0 0 16px 0;
-            font-size:22px;
-            color:#111827;
+            margin-bottom:18px;
+            font-size:24px;
+            font-weight:700;
+            color:#f1f5f9;
         }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            overflow:hidden;
-            border-radius:12px;
-        }
-
-        th, td{
-            padding:12px 10px;
-            border:1px solid #edf2f7;
-            text-align:center;
-        }
-
-        th{
-            background:#f8fafc;
-            color:#374151;
-            font-size:14px;
-        }
-
-        tr:hover{
-            background:#f9fbff;
-        }
-
-        .col-date{
-            width:160px;
-        }
-
-        .col-value{
-            width:200px;
-        }
-
-        .col-actions{
-            width:180px;
-        }
-
-        input[type="date"],
-        input[type="number"],
-        input[type="text"],
-        input[type="color"]{
-            padding:9px 10px;
-            border-radius:10px;
-            border:1px solid #d1d5db;
-            font-size:14px;
-            outline:none;
-            transition:border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        input[type="text"]:focus,
-        input[type="color"]:focus{
-            border-color:#2563eb;
-            box-shadow:0 0 0 3px rgba(37,99,235,0.12);
-        }
-
-        .value-input{
-            width:80px;
-            text-align:center;
-        }
-
-        .percent{
-            display:inline-block;
-            min-width:58px;
-            font-weight:bold;
-            font-size:20px;
-        }
-
-        .percent-good{
-            color:#16a34a;
-        }
-
-        .percent-bad{
-            color:#dc2626;
-        }
-
-        .percent-infinity{
-            color:#22e6cf;
-            font-size:29px;
-            font-weight:bold;
-            line-height:1;
-        }
+        /* BUTTONS */
 
         .btn{
             padding:9px 14px;
@@ -155,11 +68,6 @@
             font-size:13px;
             cursor:pointer;
             font-weight:700;
-            transition:all 0.15s ease;
-        }
-
-        .btn:hover{
-            transform:translateY(-1px);
         }
 
         .btn-update{
@@ -189,21 +97,110 @@
             background:#047857;
         }
 
+        /* INPUTS */
+
+        input[type="date"],
+        input[type="number"],
+        input[type="text"],
+        input[type="color"]{
+            padding:9px 10px;
+            border-radius:10px;
+            border:1px solid #334155;
+            background:#0f172a;
+            color:#e2e8f0;
+            font-size:14px;
+        }
+
+        input:focus{
+            outline:none;
+            border-color:#3b82f6;
+        }
+
+        .value-input{
+            width:80px;
+            text-align:center;
+        }
+
+        /* TABLE */
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:#0b1220;
+        }
+
+        th{
+            background:#1f2937;
+            color:#e5e7eb;
+        }
+
+        td{
+            color:#cbd5f5;
+        }
+
+        th, td{
+            padding:12px;
+            border:1px solid #1f2937;
+            text-align:center;
+        }
+
+        tr:hover{
+            background:#1a2438;
+        }
+
+        /* PERCENT */
+
+        .percent{
+            font-weight:bold;
+        }
+
+        .percent-good{
+            color:#22c55e;
+        }
+
+        .percent-bad{
+            color:#ef4444;
+        }
+
+        .percent-infinity{
+            color:#22e6cf;
+            font-size:24px;
+        }
+
+        /* TAGS */
+
+        .tags{
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+        }
+
+        .tag{
+            padding:7px 14px;
+            border-radius:999px;
+            font-size:13px;
+            font-weight:600;
+            color:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.5);
+            border:1px solid rgba(255,255,255,0.1);
+        }
+
+        /* PROGRESS */
+
         .progress-bar{
             width:100%;
             height:20px;
             border-radius:999px;
-            background:#e5e7eb;
+            background:#1f2937;
             overflow:hidden;
-            margin-top:8px;
-            box-shadow:inset 0 1px 2px rgba(0,0,0,0.08);
         }
 
         .progress-bar-inner{
             height:100%;
             background:linear-gradient(90deg,#22c55e,#16a34a);
-            transition:width 0.5s ease;
         }
+
+        /* HEATMAP */
 
         .heatmap{
             display:grid;
@@ -214,90 +211,82 @@
         .heatmap div{
             width:18px;
             height:18px;
-            border-radius:5px;
-            border:1px solid rgba(0,0,0,0.05);
-            transition:transform 0.12s ease, box-shadow 0.12s ease;
+            border-radius:4px;
         }
 
-        .heatmap div:hover{
-            transform:scale(1.22);
-            box-shadow:0 2px 6px rgba(0,0,0,0.18);
-        }
-
-        .date-infinity{
-            background:#22e6cf;
-            font-weight:bold;
-        }
-
-        .tags-list{
-            display:flex;
-            flex-direction:column;
-            gap:12px;
-        }
-
-        .tag-row{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:14px;
-            padding:14px;
-            border:1px solid #edf2f7;
-            border-radius:12px;
-            background:#fafcff;
-            flex-wrap:wrap;
-        }
-
-        .tag-preview{
-            display:flex;
-            align-items:center;
-            gap:10px;
-            min-width:160px;
-        }
-
-        .tag-color-box{
-            width:18px;
-            height:18px;
-            border-radius:50%;
-            border:1px solid rgba(0,0,0,0.15);
-            flex-shrink:0;
-        }
-
-        .tag-name{
-            font-weight:700;
-            color:#1f2937;
-        }
-
-        .tag-form{
-            display:flex;
-            align-items:center;
-            gap:10px;
-            flex-wrap:wrap;
-        }
-
-        .section-row-form{
-            display:flex;
-            gap:10px;
-            flex-wrap:wrap;
-            align-items:center;
-        }
+        /* BACK */
 
         .back-link{
-            display:inline-block;
-            margin-top:6px;
-            color:#2563eb;
+            color:#60a5fa;
             text-decoration:none;
             font-weight:700;
-            transition:opacity 0.15s ease;
         }
 
         .back-link:hover{
             opacity:0.8;
         }
 
-        .muted-text{
-            font-size:12px;
-            color:#6b7280;
+        .page-title{
+            margin:0 0 18px 0;
+            font-size:40px;
+            font-weight:800;
+            letter-spacing:-0.6px;
+            color:#f9fafb;
+            position:relative;
+            display:inline-block;
+        }
+
+        .page-title::after{
+            content:'';
+            display:block;
+            width:70%;
+            height:4px;
             margin-top:8px;
+            border-radius:999px;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 14px rgba(59,130,246,0.35);
+        }
+
+        .section-title{
+            margin:0 0 18px 0;
+            font-size:28px;
+            font-weight:800;
+            letter-spacing:-0.4px;
+            color:#f9fafb;
+            padding-left:14px;
+            border-left:4px solid #3b82f6;
+            position:relative;
+        }
+
+        .section-title::before{
+            content:'';
+            position:absolute;
+            left:-4px;
+            top:0;
+            bottom:0;
+            width:4px;
+            border-radius:999px;
+            background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 12px rgba(59,130,246,0.4);
+        }
+
+        .section-subtitle{
+            background:linear-gradient(135deg,#111827,#1f2937,#312e81);
+            margin:-8px 0 16px 14px;
+            color:#94a3b8;
+            font-size:13px;
+            font-weight:500;
+            letter-spacing:0.2px;
+        }
+
+        .task-header{
+            background:linear-gradient(135deg,#111827,#1f2937,#312e81);
+            color:white;
+            padding:30px;
+            border-radius:18px;
+            margin-bottom:24px;
+            border:1px solid #1f2937;
+            box-shadow:0 12px 30px rgba(0,0,0,0.45);
         }
 
     </style>
@@ -305,21 +294,25 @@
     <div class="container">
 
         <div class="task-header">
-            <div class="task-title">
-                {{ $task->name }}
-            </div>
 
-            <div class="task-meta">
-                <div>Task Manager: <strong>{{ $task_manager->name }}</strong></div>
-                <div>Daily Target: <strong>{{ $task->daily_target }} {{ $task->unit_type }}</strong></div>
-            </div>
+            <div class="page-title">{{ $task->name }}</div>
+
+            <p>
+                Task Manager: <strong>{{ $task_manager->name }}</strong>
+            </p>
+
+            <p>
+                Daily Target: <strong>{{ $task->daily_target }} {{ $task->unit_type }}</strong>
+            </p>
+
         </div>
+
 
         <div class="card">
 
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
 
-                <h3 style="margin:0">Tags</h3>
+                <h3 class="section-title">Tags</h3>
 
                 <a href="{{ route('office.tags.index', [$task_manager,$task]) }}"
                    class="btn btn-update">
@@ -334,20 +327,15 @@
 
             @else
 
-                <div style="display:flex;flex-wrap:wrap;gap:10px">
+                <div class="tags">
 
                     @foreach ($task->tags as $tag)
 
-                        <div style="
-                    background: {{ $tag->color }};
-                    color:white;
-                    padding:6px 12px;
-                    border-radius:999px;
-                    font-size:13px;
-                    font-weight:600;
-                    box-shadow:0 2px 6px rgba(0,0,0,0.15);
-                ">
+                        <div class="tag"
+                             style="background: {{ $tag->color }}">
+
                             {{ $tag->name }}
+
                         </div>
 
                     @endforeach
@@ -358,13 +346,14 @@
 
         </div>
 
+
         <div class="card">
 
-            <h3>Add Entry</h3>
+            <h3 class="section-title">Add Entry</h3>
 
             <form method="POST"
                   action="{{ route('office.tasks.entries.store', [$task_manager, $task]) }}"
-                  class="section-row-form">
+                  style="display:flex;gap:10px;flex-wrap:wrap">
 
                 @csrf
 
@@ -379,15 +368,16 @@
                        class="value-input"
                        required>
 
-                <button class="btn btn-save" type="submit">Save</button>
+                <button class="btn btn-save">Save</button>
 
             </form>
 
         </div>
 
+
         <div class="card">
 
-            <h3>Entries</h3>
+            <h3 class="section-title">Entries</h3>
 
             @if($task->entries->isEmpty())
 
@@ -398,9 +388,9 @@
                 <table>
 
                     <tr>
-                        <th class="col-date">Date</th>
-                        <th class="col-value">Value</th>
-                        <th class="col-actions">Actions</th>
+                        <th>Date</th>
+                        <th>Value</th>
+                        <th>Actions</th>
                     </tr>
 
                     @foreach ($task->entries->sortByDesc('entry_date') as $entry)
@@ -417,7 +407,7 @@
 
                         <tr>
 
-                            <td class="{{ $isInfinity ? 'date-infinity' : '' }}">
+                            <td>
                                 {{ $entry->entry_date->format('Y-m-d') }}
                             </td>
 
@@ -425,7 +415,7 @@
 
                                 <form method="POST"
                                       action="{{ route('office.tasks.entries.update', [$task_manager, $task, $entry]) }}"
-                                      style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+                                      style="display:flex;justify-content:center;align-items:center;gap:8px">
 
                                     @csrf
                                     @method('PATCH')
@@ -433,32 +423,31 @@
                                     <input type="number"
                                            name="actual_value"
                                            value="{{ $entry->actual_value }}"
-                                           class="value-input"
-                                           required>
+                                           class="value-input">
 
                                     <span class="
-                                    percent
-                                    {{ $isInfinity ? 'percent-infinity' : ($good ? 'percent-good' : 'percent-bad') }}
-                                ">
-                                    {{ $displayPercent }}
-                                </span>
+                                percent
+                                {{ $isInfinity ? 'percent-infinity' : ($good ? 'percent-good' : 'percent-bad') }}
+                            ">
+                                {{ $displayPercent }}
+                            </span>
 
                             </td>
 
                             <td>
 
-                                <button class="btn btn-update" type="submit">Update</button>
+                                <button class="btn btn-update">Update</button>
 
                                 </form>
 
                                 <form method="POST"
                                       action="{{ route('office.tasks.entries.destroy', [$task_manager, $task, $entry]) }}"
-                                      style="display:inline-block;margin-left:6px;">
+                                      style="display:inline-block">
 
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="btn btn-delete" type="submit">Delete</button>
+                                    <button class="btn btn-delete">Delete</button>
 
                                 </form>
 
@@ -474,9 +463,10 @@
 
         </div>
 
+
         <div class="card">
 
-            <h3>Last 7 Days Progress</h3>
+            <h3 class="section-title">Last 7 Days Progress</h3>
 
             @php
                 $weekEntries = $task->entries->where('entry_date', '>=', now()->subDays(7));
@@ -491,14 +481,14 @@
             <p><strong>{{ $weekDone }}</strong> / {{ $weekRequired }}</p>
 
             <div class="progress-bar">
-                <div class="progress-bar-inner" style="width:{{ min($weekPercent, 100) }}%"></div>
+                <div class="progress-bar-inner" style="width:{{ min($weekPercent,100) }}%"></div>
             </div>
 
         </div>
 
         <div class="card">
 
-            <h3>Last 30 Days Progress</h3>
+            <h3 class="section-title">Last 30 Days Progress</h3>
 
             @php
                 $monthEntries = $task->entries->where('entry_date', '>=', now()->subDays(30));
@@ -513,19 +503,20 @@
             <p><strong>{{ $monthDone }}</strong> / {{ $monthRequired }}</p>
 
             <div class="progress-bar">
-                <div class="progress-bar-inner" style="width:{{ min($monthPercent, 100) }}%"></div>
+                <div class="progress-bar-inner" style="width:{{ min($monthPercent,100) }}%"></div>
             </div>
 
         </div>
 
         <div class="card">
 
-            <h3>Last 30 Days Activity</h3>
+            <h3 class="section-title">Last 30 Days Activity</h3>
 
             @php
                 $days = collect();
 
                 for ($i = 29; $i >= 0; $i--) {
+
                     $date = now()->subDays($i);
 
                     $entry = $task->entries
@@ -541,21 +532,21 @@
                         $color = '#22e6cf';
                     }
                     elseif ($realPercent == 0) {
-                        $color = '#ebedf0';
+                        $color = '#1f2937';
                     }
                     elseif ($realPercent < 50) {
-                        $color = '#9be9a8';
+                        $color = '#4ade80';
                     }
                     elseif ($realPercent < 100) {
-                        $color = '#40c463';
+                        $color = '#22c55e';
                     }
                     else {
-                        $color = '#216e39';
+                        $color = '#166534';
                     }
 
                     $days->push([
-                        'date' => $date->format('Y-m-d'),
-                        'color' => $color
+                        'date'=>$date->format('Y-m-d'),
+                        'color'=>$color
                     ]);
                 }
             @endphp
@@ -563,19 +554,16 @@
             <div class="heatmap">
 
                 @foreach($days as $day)
-                    <div
-                        title="{{ $day['date'] }}"
-                        style="background:{{ $day['color'] }}">
-                    </div>
+
+                    <div title="{{ $day['date'] }}"
+                         style="background:{{ $day['color'] }}"></div>
+
                 @endforeach
 
             </div>
 
-            <p class="muted-text">
-                Light → Dark = more progress
-            </p>
-
         </div>
+
 
         <a href="{{ route('office.task_managers.show', $task_manager) }}" class="back-link">
             ← Back to Tasks

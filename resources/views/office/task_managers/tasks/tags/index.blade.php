@@ -181,6 +181,16 @@
             letter-spacing:0.2px;
         }
 
+        .task-header{
+            background:linear-gradient(135deg,#111827,#1f2937,#312e81);
+            color:white;
+            padding:30px;
+            border-radius:18px;
+            margin-bottom:24px;
+            border:1px solid #1f2937;
+            box-shadow:0 12px 30px rgba(0,0,0,0.45);
+        }
+
     </style>
 
 
@@ -212,7 +222,7 @@
 
     <div class="container">
 
-        <div class="card">
+        <div class="task-header">
 
             <h2 class="page-title">Manage Tags</h2>
 
