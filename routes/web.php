@@ -51,28 +51,21 @@ Route::middleware(['auth'])->prefix('office')->name('office.')->group(function (
 
     Route::get('/{task_manager}/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
-    // Tags
-    Route::get('/{task_manager}/{task}/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
+    // Task Entry
+    Route::post('/{task_manager}/{task}/entry', [TaskEntryController::class, 'store'])->name('tasks.entries.store');
+
+    Route::patch('/{task_manager}/{task}/entry/{entry}', [TaskEntryController::class, 'update'])->name('tasks.entries.update');
+
+    Route::delete('/{task_manager}/{task}/entry/{entry}', [TaskEntryController::class, 'destroy'])->name('tasks.entries.destroy');
+
+    // tags
+    Route::get('/{task_manager}/{task}/tags', [TagController::class, 'index'])->name('tags.index');
 
     Route::post('/{task_manager}/{task}/tags', [TagController::class, 'store'])->name('tags.store');
 
     Route::patch('/{task_manager}/{task}/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
 
     Route::delete('/{task_manager}/{task}/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
-
-    // Task Entry
-    Route::post(
-        '/{task_manager}/{task}/entry',
-        [TaskEntryController::class, 'store']
-    )->name('tasks.entries.store');
-
-    Route::patch('/{task_manager}/{task}/entry/{entry}',
-        [TaskEntryController::class, 'update']
-    )->name('tasks.entries.update');
-
-    Route::delete('/{task_manager}/{task}/entry/{entry}',
-        [TaskEntryController::class, 'destroy']
-    )->name('tasks.entries.destroy');
 });
 
 Route::post('/logout', function (Request $request) {
