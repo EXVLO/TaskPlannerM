@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\TaskManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
@@ -39,8 +40,14 @@ class TagController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'color' => ['nullable', 'string', 'max:20'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('tags')
+                    ->where('user_id', auth()->id())
+            ],
+            'color' => ['nullable','string','max:20']
         ]);
 
         $tag = Tag::firstOrCreate(
