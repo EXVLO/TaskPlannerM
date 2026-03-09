@@ -68,6 +68,8 @@
             font-size:13px;
             cursor:pointer;
             font-weight:700;
+            text-decoration:none;
+            display:inline-block;
         }
 
         .btn-update{
@@ -119,6 +121,20 @@
         .value-input{
             width:80px;
             text-align:center;
+            padding:9px 10px;
+            border-radius:10px;
+            border:1px solid #334155;
+            background:#0f172a;
+            color:#e2e8f0;
+            font-size:14px;
+            appearance:textfield;
+            -moz-appearance:textfield;
+        }
+
+        .value-input::-webkit-outer-spin-button,
+        .value-input::-webkit-inner-spin-button{
+            -webkit-appearance:none;
+            margin:0;
         }
 
         /* TABLE */
@@ -152,6 +168,9 @@
 
         .percent{
             font-weight:bold;
+            display:inline-block;
+            min-width:60px;
+            text-align:left;
         }
 
         .percent-good{
@@ -164,7 +183,7 @@
 
         .percent-infinity{
             color:#22e6cf;
-            font-size:24px;
+            font-size:28px;
         }
 
         /* TAGS */
@@ -425,8 +444,7 @@
                                            value="{{ $entry->actual_value }}"
                                            class="value-input">
 
-                                    <span class="
-                                percent
+                                    <span class="percent
                                 {{ $isInfinity ? 'percent-infinity' : ($good ? 'percent-good' : 'percent-bad') }}
                             ">
                                 {{ $displayPercent }}
