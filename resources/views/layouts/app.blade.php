@@ -30,6 +30,7 @@
             border-top:1px solid rgba(255,255,255,0.08);
         }
     </style>
+    @stack('styles')
 </head>
 <body>
 
@@ -37,6 +38,7 @@
 
 <main>
     @yield('content')
+    {{ $slot ?? '' }}
 </main>
 
 @include('layouts.footer')
