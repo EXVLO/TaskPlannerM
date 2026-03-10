@@ -198,7 +198,7 @@
         <div class="office-header">
 
             <div class="page-title">
-                Task Managers
+                Office
             </div>
 
         </div>
@@ -207,7 +207,7 @@
 
             <div style="display:flex;justify-content:space-between;align-items:center">
 
-                <h3 class="section-title">Office</h3>
+                <h3 class="section-title">Task Managers</h3>
 
                 <a href="{{ route('office.create') }}" class="btn btn-create">
                     + Add Task Manager
