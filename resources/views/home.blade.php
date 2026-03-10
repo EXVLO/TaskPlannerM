@@ -13,166 +13,147 @@
 
 @push('styles')
     <style>
-        .home-wrapper{
-            max-width:1200px;
-            margin:0 auto;
-            padding:40px 20px;
-        }
         .overview-grid{
             display:grid;
-            gap:20px;
-            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-            margin-bottom:60px;
+            gap:26px;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            margin-bottom:70px;
         }
+
         .overview-card{
-            background:#1e293b;
-            border-radius:10px;
-            padding:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.35);
+            position:relative;
+            padding:28px;
+            border-radius:16px;
+            background:linear-gradient(145deg,#0f172a,#1e293b);
+            border:1px solid rgba(255,255,255,0.05);
+            backdrop-filter:blur(8px);
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-color 0.35s ease,
+                background 0.35s ease;
         }
+
+        .overview-card:hover{
+            transform:translateY(-12px) scale(1.025);
+            border-color:rgba(99,102,241,0.35);
+            box-shadow:
+                0 24px 60px rgba(0,0,0,0.75),
+                0 0 24px rgba(99,102,241,0.22),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
         .overview-card h2{
-            color:#f1f5f9;
-            margin-bottom:12px;
-            font-size:1.4rem;
+            font-size:18px;
             font-weight:700;
+            margin-bottom:18px;
+
+            background:linear-gradient(90deg,#60a5fa,#a78bfa);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
         }
+
         .progress-wrapper{
             display:flex;
             align-items:center;
-            gap:8px;
-            margin-bottom:10px;
+            gap:10px;
+            margin-bottom:14px;
         }
+
         .progress-bar{
             flex:1;
-            height:8px;
-            background:#334155;
-            border-radius:4px;
+            height:10px;
+            background:#020617;
+            border-radius:6px;
             overflow:hidden;
+            border:1px solid rgba(255,255,255,0.04);
         }
+
         .progress-fill-7{
             height:100%;
-            background:linear-gradient(135deg,#059669,#047857);
+            background:linear-gradient(90deg,#22c55e,#16a34a);
+            box-shadow:0 0 10px rgba(34,197,94,0.5);
         }
+
         .progress-fill-30{
             height:100%;
-            background:linear-gradient(135deg,#2563eb,#1d4ed8);
+            background:linear-gradient(90deg,#3b82f6,#6366f1);
+            box-shadow:0 0 12px rgba(59,130,246,0.5);
         }
+
         .details-item{
-            color:#94a3b8;
-            font-size:0.9rem;
-            margin:4px 0;
+            color:#9ca3af;
+            font-size:14px;
+            margin:6px 0;
         }
-        /* Feature cards */
-        .home-features{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:20px;
+
+        .details-item strong{
+            color:#cbd5e1;
+            font-weight:600;
+            font-size:16px;
         }
-        .home-feature{
-            background:#1e293b;
-            border-radius:10px;
-            padding:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.35);
-            transition:transform 0.2s ease;
+
+        /* glowing border effect */
+
+        .overview-card::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            border-radius:16px;
+            padding:1px;
+
+            background:linear-gradient(120deg,#6366f1,#3b82f6,#22c55e);
+
+            -webkit-mask:
+                linear-gradient(#000 0 0) content-box,
+                linear-gradient(#000 0 0);
+
+            -webkit-mask-composite:xor;
+            mask-composite:exclude;
+
+            opacity:.15;
         }
-        .home-feature:hover{ transform:translateY(-4px); }
-        .home-feature h3{
-            font-size:1.2rem;
-            color:#f1f5f9;
-            margin-bottom:8px;
+
+        .text-gradient
+        {
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
         }
-        .home-feature p{
-            color:#94a3b8;
-            font-size:0.9rem;
+
+        .home-page-title{
+            margin:0 0 18px 0;
+            font-size:40px;
+            font-weight:800;
+            letter-spacing:-0.6px;
+            color:#f9fafb;
+            position:relative;
+            display:inline-block;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
         }
-        /* How it works */
-        .home-how{
-            margin-top:60px;
-        }
-        .home-how h2{
-            font-size:1.8rem;
-            color:#f1f5f9;
-            margin-bottom:24px;
-            text-align:center;
-        }
-        .how-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-            gap:20px;
-        }
-        .how-card{
-            background:#1e293b;
-            border-radius:10px;
-            padding:24px;
-            text-align:center;
-            box-shadow:0 4px 14px rgba(0,0,0,0.35);
-        }
-        .how-card .number{
-            font-size:2rem;
-            color:#7c3aed;
-            font-weight:700;
-            margin-bottom:8px;
-        }
-        .how-card h4{
-            color:#f1f5f9;
-            font-size:1.2rem;
-            margin-bottom:6px;
-        }
-        .how-card p{
-            color:#94a3b8;
-            font-size:0.9rem;
-        }
-        /* About us */
-        .home-about{
-            margin-top:60px;
-            text-align:center;
-        }
-        .home-about h2{
-            font-size:1.8rem;
-            color:#f1f5f9;
-            margin-bottom:16px;
-        }
-        .home-about p{
-            color:#94a3b8;
-            font-size:1rem;
-            max-width:700px;
-            margin:0 auto;
-        }
-        /* Use cases */
-        .home-use{
-            margin-top:60px;
-        }
-        .home-use h2{
-            font-size:1.8rem;
-            color:#f1f5f9;
-            margin-bottom:24px;
-            text-align:center;
-        }
-        .use-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:20px;
-        }
-        .use-card{
-            background:#1e293b;
-            border-radius:10px;
-            padding:20px;
-            text-align:center;
-            box-shadow:0 4px 14px rgba(0,0,0,0.35);
-        }
-        .use-card h4{
-            color:#f1f5f9;
-            font-size:1.1rem;
-            margin-bottom:6px;
-        }
-        .use-card p{
-            color:#94a3b8;
-            font-size:0.9rem;
+
+        .home-page-title::after{
+            content:'';
+            display:block;
+            width:70%;
+            height:4px;
+            margin-top:8px;
+            border-radius:999px;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 14px rgba(59,130,246,0.35);
         }
     </style>
 @endpush
 
 @section('content')
+    <h1 class="text-gradient home-page-title">Home</h1>
     <div class="home-wrapper">
         {{-- Overview Section --}}
         <section class="overview-grid">
@@ -221,82 +202,12 @@
                 <p class="details-item">Tags: {{ $details['totalTags'] }}</p>
             </div>
         </section>
-        {{-- Features --}}
-        <section>
-            <h2 style="font-size:1.8rem;color:#f1f5f9;margin-bottom:24px;text-align:center;">Features</h2>
-            <div class="home-features">
-                <div class="home-feature">
-                    <h3>Organize with Managers</h3>
-                    <p>Create task managers to group related tasks and keep projects separate.</p>
-                </div>
-                <div class="home-feature">
-                    <h3>Set Daily Goals</h3>
-                    <p>Assign daily targets to your tasks to stay accountable and consistent.</p>
-                </div>
-                <div class="home-feature">
-                    <h3>Visualize Progress</h3>
-                    <p>See your weekly and monthly productivity at a glance with progress bars.</p>
-                </div>
-                <div class="home-feature">
-                    <h3>Stay On Track</h3>
-                    <p>Get reminders and insights to ensure you’re always moving towards your goals.</p>
-                </div>
-            </div>
-        </section>
-        {{-- How It Works --}}
-        <section class="home-how">
-            <h2>How It Works</h2>
-            <div class="how-grid">
-                <div class="how-card">
-                    <div class="number">1</div>
-                    <h4>Create Manager</h4>
-                    <p>Start by creating a task manager for a project or area of your life.</p>
-                </div>
-                <div class="how-card">
-                    <div class="number">2</div>
-                    <h4>Add Tasks</h4>
-                    <p>Add tasks with daily targets and categorize them with tags.</p>
-                </div>
-                <div class="how-card">
-                    <div class="number">3</div>
-                    <h4>Track Daily</h4>
-                    <p>Log your daily progress to monitor how you’re performing over time.</p>
-                </div>
-                <div class="how-card">
-                    <div class="number">4</div>
-                    <h4>Review Stats</h4>
-                    <p>Review insights and statistics to continually improve your productivity.</p>
-                </div>
-            </div>
-        </section>
         {{-- About Us --}}
         <section class="home-about">
             <h2>About Us</h2>
             <p>TaskPlannerM was built out of a desire to help people achieve more by
                 organizing their day‑to‑day tasks. Our mission is to provide a simple yet
                 powerful tool that keeps you motivated and on track.</p>
-        </section>
-        {{-- Use Cases --}}
-        <section class="home-use">
-            <h2>Use Cases</h2>
-            <div class="use-grid">
-                <div class="use-card">
-                    <h4>Students</h4>
-                    <p>Stay on top of assignments, study sessions and exam prep.</p>
-                </div>
-                <div class="use-card">
-                    <h4>Developers</h4>
-                    <p>Keep track of features, bugs and daily coding goals.</p>
-                </div>
-                <div class="use-card">
-                    <h4>Freelancers</h4>
-                    <p>Manage client projects, deadlines and deliverables effectively.</p>
-                </div>
-                <div class="use-card">
-                    <h4>Personal Goals</h4>
-                    <p>Build habits, exercise routines or any personal project you’re working on.</p>
-                </div>
-            </div>
         </section>
     </div>
 @endsection

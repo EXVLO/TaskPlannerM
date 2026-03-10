@@ -137,6 +137,10 @@
             color:#f9fafb;
             position:relative;
             display:inline-block;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
         }
 
         .page-title::after{
