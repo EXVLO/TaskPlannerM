@@ -193,33 +193,6 @@
 
     </style>
 
-
-    @if(session('success'))
-
-        <div id="success-message" class="success">
-            {{ session('success') }}
-        </div>
-
-        <script>
-            setTimeout(function () {
-
-                const message = document.getElementById('success-message');
-
-                if(message){
-                    message.style.transition='opacity 0.5s';
-                    message.style.opacity='0';
-
-                    setTimeout(function(){
-                        message.remove();
-                    },500);
-                }
-
-            },2500);
-        </script>
-
-    @endif
-
-
     <div class="container">
 
         <div class="task-header">

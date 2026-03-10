@@ -45,9 +45,9 @@ class TagController extends Controller
                 'string',
                 'max:255',
                 Rule::unique('tags')
-                    ->where('user_id', auth()->id())
+                    ->where('user_id', auth()->id()),
             ],
-            'color' => ['nullable','string','max:20']
+            'color' => ['nullable', 'string', 'max:20'],
         ]);
 
         $tag = Tag::firstOrCreate(

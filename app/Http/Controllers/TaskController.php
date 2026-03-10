@@ -75,7 +75,9 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return redirect()->route('office.task_managers.show', [$task_manager, $task]);
+        return redirect()
+            ->route('office.task_managers.show', $task_manager)
+            ->with('success', 'Task updated successfully.');
     }
 
     public function destroy(TaskManager $task_manager, Task $task)
@@ -90,7 +92,9 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return redirect()->route('office.task_managers.show', $task_manager);
+        return redirect()
+            ->route('office.task_managers.show', $task_manager)
+            ->with('success', 'Task deleted successfully.');
     }
 
     public function store(Request $request, TaskManager $task_manager)
@@ -108,6 +112,8 @@ class TaskController extends Controller
 
         $task_manager->tasks()->create($validated);
 
-        return redirect()->route('office.task_managers.show', $task_manager);
+        return redirect()
+            ->route('office.task_managers.show', $task_manager)
+            ->with('success', 'Task created successfully.');
     }
 }

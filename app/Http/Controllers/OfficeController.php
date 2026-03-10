@@ -67,7 +67,9 @@ class OfficeController extends Controller
 
         $task_manager->update($validated);
 
-        return redirect()->route('office.index', $task_manager);
+        return redirect()
+            ->route('office.index')
+            ->with('success', 'Task manager updated successfully.');
     }
 
     public function destroy(TaskManager $task_manager)
@@ -78,7 +80,9 @@ class OfficeController extends Controller
 
         $task_manager->delete();
 
-        return redirect()->route('office.index');
+        return redirect()
+            ->route('office.index')
+            ->with('success', 'Task manager deleted successfully.');
     }
 
     public function store(Request $request)
@@ -98,6 +102,8 @@ class OfficeController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('office.index');
+        return redirect()
+            ->route('office.index')
+            ->with('success', 'Task manager created successfully.');
     }
 }

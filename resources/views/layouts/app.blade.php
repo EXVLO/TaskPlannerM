@@ -6,41 +6,36 @@
     <title>@yield('title', 'TaskPlannerM')</title>
 
     <style>
-        html, body{
-            margin:0;
-            padding:0;
-            background:#0f172a;
-            color:#e5e7eb;
-            font-family:Arial, sans-serif;
-            min-height:100%;
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #0f172a;
+            color: #e5e7eb;
+            font-family: Arial, sans-serif;
+            min-height: 100%;
         }
 
-        a{
-            color:inherit;
+        a {
+            color: inherit;
         }
 
-        main{
-            max-width:1200px;
-            margin:0 auto;
-            padding:24px;
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
         }
 
-        hr{
-            border:none;
-            border-top:1px solid rgba(255,255,255,0.08);
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
     </style>
     @stack('styles')
 </head>
 <body>
-
 @include('layouts.header')
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+@include('layouts.flash-message')
 
 <main>
     @yield('content')
@@ -48,6 +43,5 @@
 </main>
 
 @include('layouts.footer')
-
 </body>
 </html>
