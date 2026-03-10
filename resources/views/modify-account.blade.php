@@ -1,139 +1,259 @@
-{{--
-    Modify Account Page
-
-    This page allows users to update their display name, change their password
-    and delete their account. It uses a dark theme consistent with the rest
-    of the application and simple card layouts. Place this file at
-    `resources/views/modify-account.blade.php` in your Laravel application
-    and create corresponding routes and controller methods to handle the
-    form submissions. Ensure routes are protected with the `auth` middleware.
---}}
-
 @extends('layouts.app')
 
 @section('title', 'Modify Account')
 
 @push('styles')
     <style>
+
         .modify-wrapper{
-            max-width:700px;
+            max-width:720px;
             margin:0 auto;
-            padding:40px 20px;
+            padding:50px 20px;
         }
+
         .modify-header{
             text-align:center;
-            margin-bottom:32px;
+            margin-bottom:50px;
         }
+
         .modify-header h1{
-            font-size:2rem;
-            font-weight:700;
-            color:#f1f5f9;
-            margin-bottom:8px;
+            font-size:34px;
+            font-weight:800;
+            letter-spacing:-0.5px;
+            background:linear-gradient(90deg,#60a5fa,#a78bfa,#22d3ee);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-bottom:10px;
         }
+
         .modify-header p{
-            color:#94a3b8;
-            font-size:1rem;
+            color:#9ca3af;
+            font-size:15px;
         }
+
+        /* CARD */
+
         .modify-card{
-            background:#1e293b;
-            border-radius:10px;
-            padding:24px;
-            box-shadow:0 4px 14px rgba(0,0,0,0.35);
-            margin-bottom:32px;
+            background:linear-gradient(145deg,#111827,#1f2937);
+            border:1px solid #374151;
+            border-radius:16px;
+            padding:28px;
+            margin-bottom:26px;
+
+            backdrop-filter:blur(8px);
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+
+            transition:transform .25s ease, box-shadow .25s ease;
         }
+
+        .modify-card:hover{
+            transform:translateY(-3px);
+            box-shadow:
+                0 14px 60px rgba(0,0,0,0.55),
+                0 0 20px rgba(99,102,241,0.12);
+        }
+
         .modify-card h2{
-            color:#f1f5f9;
-            font-size:1.4rem;
-            margin-bottom:16px;
+            font-size:20px;
+            font-weight:700;
+            color:#f3f4f6;
+            margin-bottom:18px;
+            border-left:4px solid #6366f1;
+            padding-left:12px;
         }
+
+        /* LABELS */
+
         .modify-card label{
             display:block;
-            color:#cbd5e1;
-            margin-bottom:4px;
-            font-size:0.9rem;
+            font-size:13px;
+            font-weight:600;
+            color:#9ca3af;
+            margin-bottom:6px;
         }
+
+        /* INPUTS */
+
         .modify-card input{
             width:100%;
-            padding:10px 14px;
-            border-radius:6px;
-            border:none;
-            margin-bottom:16px;
-            background:#334155;
-            color:#f1f5f9;
-        }
-        .modify-card button{
-            display:inline-block;
-            padding:10px 20px;
+            max-width:640px;
+            padding:10px 12px;
             border-radius:8px;
-            font-weight:700;
+            border:1px solid #374151;
+            background:#020617;
+            color:#e5e7eb;
+            margin-bottom:16px;
+            font-size:14px;
+            transition:border .2s ease, box-shadow .2s ease;
+        }
+
+        .modify-card input::placeholder{
+            color:#6b7280;
+        }
+
+        .modify-card input:focus{
+            outline:none;
+            border-color:#6366f1;
+            box-shadow:0 0 0 2px rgba(99,102,241,0.25);
+        }
+
+        /* BUTTONS */
+
+        .modify-card button{
             border:none;
+            padding:11px 22px;
+            border-radius:10px;
+            font-weight:700;
             cursor:pointer;
-            transition:opacity 0.3s ease;
-            text-decoration:none;
+            transition:all .25s ease;
+            letter-spacing:.3px;
         }
+
         .modify-card button.primary{
-            background:linear-gradient(135deg,#2563eb,#7c3aed);
+            background:linear-gradient(135deg,#3b82f6,#6366f1);
             color:white;
-            margin-right:8px;
         }
+
         .modify-card button.secondary{
-            background:linear-gradient(135deg,#15803d,#22c55e);
+            background:linear-gradient(135deg,#22c55e,#16a34a);
             color:white;
         }
+
         .modify-card button.danger{
-            background:linear-gradient(135deg,#b91c1c,#ef4444);
+            background:linear-gradient(135deg,#ef4444,#b91c1c);
             color:white;
         }
+
         .modify-card button:hover{
-            opacity:0.85;
+            transform:translateY(-2px);
+            box-shadow:0 6px 18px rgba(0,0,0,0.35);
+            opacity:.95;
         }
+
+        .danger-note{
+            color:#f87171;
+            font-size:14px;
+            margin-bottom:18px;
+        }
+
         form.delete-form{
             text-align:center;
         }
+
     </style>
 @endpush
 
+
 @section('content')
+
     <div class="modify-wrapper">
+
         <div class="modify-header">
-            <h1>Manage Your Account</h1>
-            <p>Update your name, change your password or delete your account.</p>
+            <h1>Account Settings</h1>
+            <p>Manage your profile information and security settings</p>
         </div>
-        {{-- Update Name --}}
+
+        {{-- CHANGE NAME --}}
         <div class="modify-card">
-            <h2>Change Name</h2>
+
+            <h2>Update Display Name</h2>
+
             <form method="POST" action="{{ route('account.update') }}">
                 @csrf
-                @method('POST')
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" value="{{ old('name', Auth::user()->name) }}" required>
-                <button type="submit" class="primary">Update Name</button>
+
+                <label for="name">Display Name</label>
+
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    value="{{ old('name', Auth::user()->name) }}"
+                    required
+                >
+
+                <button type="submit" class="primary">
+                    Update Name
+                </button>
+
             </form>
+
         </div>
-        {{-- Change Password --}}
+
+
+        {{-- CHANGE PASSWORD --}}
         <div class="modify-card">
+
             <h2>Change Password</h2>
+
             <form method="POST" action="{{ route('account.updatePassword') }}">
+
                 @csrf
-                @method('POST')
+
                 <label for="current_password">Current Password</label>
-                <input id="current_password" name="current_password" type="password" required>
+
+                <input
+                    id="current_password"
+                    name="current_password"
+                    type="password"
+                    placeholder="Enter current password"
+                    required
+                >
+
                 <label for="password">New Password</label>
-                <input id="password" name="password" type="password" required>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter new password"
+                    required
+                >
+
                 <label for="password_confirmation">Confirm New Password</label>
-                <input id="password_confirmation" name="password_confirmation" type="password" required>
-                <button type="submit" class="secondary">Update Password</button>
+
+                <input
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    type="password"
+                    placeholder="Confirm new password"
+                    required
+                >
+
+                <button type="submit" class="secondary">
+                    Update Password
+                </button>
+
             </form>
+
         </div>
-        {{-- Delete Account --}}
+
+
+        {{-- DELETE ACCOUNT --}}
         <div class="modify-card">
+
             <h2>Delete Account</h2>
-            <p class="details-item" style="color:#f87171;margin-bottom:16px;">Once your account is deleted, all data will be permanently removed.</p>
+
+            <p class="danger-note">
+                Once your account is deleted, all tasks, task managers and data will be permanently removed.
+            </p>
+
             <form method="POST" action="{{ route('account.destroy') }}" class="delete-form">
+
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="danger">Delete My Account</button>
+
+                <button type="submit" class="danger">
+                    Delete My Account
+                </button>
+
             </form>
+
         </div>
+
     </div>
+
 @endsection

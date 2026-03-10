@@ -75,13 +75,21 @@
         .settings-actions a:hover{
             opacity:0.85;
         }
+
+        .text-gradient
+        {
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
     </style>
 @endpush
 
 @section('content')
     <div class="settings-wrapper">
         <div class="settings-header">
-            <h1>Your Settings</h1>
+            <h1 class = "text-gradient">Your Settings</h1>
             <p>Manage your account information and preferences.</p>
         </div>
         <div class="settings-grid">

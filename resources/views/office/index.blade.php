@@ -36,6 +36,10 @@
             color:#f9fafb;
             position:relative;
             display:inline-block;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
         }
 
         .page-title::after{
@@ -69,6 +73,10 @@
             padding-left:14px;
             border-left:4px solid #3b82f6;
             position:relative;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
         }
 
         .section-title::before{

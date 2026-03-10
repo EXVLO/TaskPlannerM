@@ -68,13 +68,20 @@
             font-size:0.9rem;
             color:#94a3b8;
         }
+        .text-gradient
+        {
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
     </style>
 @endpush
 
 @section('content')
     <div class="news-wrapper">
         <div class="news-header">
-            <h1>News & Updates</h1>
+            <h1 class = "text-gradient">News & Updates</h1>
             <p>Stay informed about what’s new and upcoming at TaskPlannerM.</p>
         </div>
         <div class="news-grid">
