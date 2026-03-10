@@ -139,13 +139,6 @@
             text-align: center;
         }
 
-        .step-card .step-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #7c3aed;
-        }
-
         .step-card h4 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
@@ -258,6 +251,41 @@
                 font-size: 1rem;
             }
         }
+
+        .section-title{
+            display:inline-block;
+            margin:0 0 18px 0;
+            font-size:28px;
+            font-weight:800;
+            letter-spacing:-0.4px;
+            color:#f9fafb;
+            padding-left:14px;
+            border-left:4px solid #3b82f6;
+            position:relative;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
+
+        .section-title::before{
+            content:'';
+            position:absolute;
+            left:-4px;
+            top:0;
+            bottom:0;
+            width:4px;
+            border-radius:999px;
+            background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+            box-shadow:0 0 12px rgba(59,130,246,0.4);
+        }
+
+        .text-gradient{
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
     </style>
 @endpush
 
@@ -265,7 +293,7 @@
     <div class="welcome-container">
         {{-- Hero Section --}}
         <section class="welcome-hero">
-            <h1>Plan Smarter. Achieve More.</h1>
+            <h1 class="text-gradient">Plan Smarter. Achieve More.</h1>
             <p>TaskPlannerM helps you organize tasks, track daily progress, and stay productive.</p>
             <div class="cta-main">
                 @guest
@@ -280,7 +308,7 @@
 
         {{-- Features Section --}}
         <section class="welcome-use-cases">
-            <h2>how it works</h2>
+            <h2 class="section-title">Features</h2>
             <div class="cases-grid">
                 <div class="feature-card">
                     <h3>Task Managers</h3>
@@ -289,10 +317,6 @@
                 <div class="feature-card">
                     <h3>Daily Targets</h3>
                     <p>Set daily goals for each task and keep yourself accountable every day.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Tag System</h3>
-                    <p>Label tasks with tags to categorize and filter your to‑do list quickly.</p>
                 </div>
                 <div class="feature-card">
                     <h3>Progress Tracking</h3>
@@ -311,25 +335,21 @@
 
         {{-- How It Works Section --}}
         <section class="welcome-use-cases">
-            <h2>how it works</h2>
+            <h2 class="section-title">how it works</h2>
             <div class="cases-grid">
                 <div class="step-card">
-                    <div class="step-number">1</div>
                     <h4>Create a Task Manager</h4>
                     <p>Start by setting up a task manager to group related tasks together.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">2</div>
                     <h4>Add Tasks</h4>
                     <p>Define tasks with daily targets to keep your workload structured.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">3</div>
                     <h4>Track Progress</h4>
                     <p>Record your daily achievements and see your progress accumulate.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">4</div>
                     <h4>Review Statistics</h4>
                     <p>Analyze weekly and monthly statistics to understand your productivity patterns.</p>
                 </div>
@@ -338,7 +358,7 @@
 
         {{-- Use Cases Section --}}
         <section class="welcome-use-cases">
-            <h2>Who It's For</h2>
+            <h2 class="section-title">Who It's For</h2>
             <div class="cases-grid">
                 <div class="case-card">
                     <h4>Students</h4>
@@ -359,4 +379,12 @@
             </div>
         </section>
     </div>
+
+    <section>
+        <div>
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+    </section>
 @endsection
