@@ -4,18 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskManager;
+use carbon\carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use carbon\carbon;
 
 class OfficeController extends Controller
 {
     public function index()
     {
-        $taskManagers = Auth::user()
-            ->taskManagers()
-            ->latest()
+        // load managers with tasks and entries in one query
+        $taskManagers = Auth::user()->taskManagers()
+            ->with(['tasks.entries'])
             ->get();
+
+        foreach ($taskManagers as $manager) {
+            $sumActual7 = $sumTarget7 = 0;
+            $sumActual30 = $sumTarget30 = 0;
+
+            foreach ($manager->tasks->where('is_active', true) as $task) {
+                // sum actual values for this task over the last 7 days
+                $actual7 = $task->entries->where('entry_date', '>=', Carbon::now()->subDays(6)->toDateString())
+                    ->sum('actual_value');
+                $actual30 = $task->entries->where('entry_date', '>=', Carbon::now()->subDays(29)->toDateString())
+                    ->sum('actual_value');
+
+                $sumActual7 += $actual7;
+                $sumActual30 += $actual30;
+
+                // target = daily_target × number of days
+                $sumTarget7 += $task->daily_target * 7;
+                $sumTarget30 += $task->daily_target * 30;
+            }
+
+            // compute percentage for the manager (cap at 100 %)
+            $manager->progress7_percent = $sumTarget7 > 0 ? min(100, ($sumActual7 / $sumTarget7) * 100) : 0;
+            $manager->progress30_percent = $sumTarget30 > 0 ? min(100, ($sumActual30 / $sumTarget30) * 100) : 0;
+        }
 
         return view('office.index', compact('taskManagers'));
     }

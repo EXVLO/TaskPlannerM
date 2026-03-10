@@ -85,12 +85,6 @@
 
         /* LIST */
 
-        .managers{
-            display:flex;
-            flex-direction:column;
-            gap:12px;
-        }
-
         .manager-row{
             display:flex;
             justify-content:space-between;
@@ -165,6 +159,38 @@
             color:#94a3b8;
         }
 
+        .manager-progress-bars {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .progress-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .progress-label {
+            font-size: 10px;
+            color: #94a3b8;
+            width: 24px;
+            text-align: right;
+        }
+        .progress-bar {
+            width: 70px;
+            height: 6px;
+            background: #1f2937; /* dark bar background */
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill-7 {
+            height: 100%;
+            background: linear-gradient(135deg, #059669, #047857); /* green */
+        }
+        .progress-fill-30 {
+            height: 100%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8); /* blue */
+        }
+
     </style>
 
     <div class="container">
@@ -181,7 +207,7 @@
 
             <div style="display:flex;justify-content:space-between;align-items:center">
 
-                <h3 class="section-title">Managers</h3>
+                <h3 class="section-title">Office</h3>
 
                 <a href="{{ route('office.create') }}" class="btn btn-create">
                     + Add Task Manager
@@ -195,38 +221,53 @@
 
             @else
 
-                <div class="managers">
+                <div class="Task Managers">
 
-                    @foreach($taskManagers as $taskManager)
-
+                    @foreach ($taskManagers as $manager)
                         <div class="manager-row">
-
-                            <a class="manager-name"
-                               href="{{ route('office.task_managers.show', $taskManager) }}">
-                                {{ $taskManager->name }}
-                            </a>
-
-                            <div class="actions">
-
-                                <a class="btn btn-edit"
-                                   href="{{ route('office.task_managers.edit', $taskManager) }}">
-                                    Edit
+                            <div class="manager-info">
+                                <a class="manager-name"
+                                   href="{{ route('office.task_managers.show', $manager) }}">
+                                    {{ $manager->name }}
                                 </a>
 
-                                <form method="POST"
-                                      action="{{ route('office.task_managers.destroy', $taskManager) }}">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="btn btn-delete">
-                                        Delete
-                                    </button>
-                                </form>
-
+                                {{-- progress bars --}}
+                                <div class="manager-progress-bars">
+                                    <div class="progress-wrapper">
+                                        <span class="progress-label">7d</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill-7"
+                                                 style="width: {{ round($manager->progress7_percent) }}%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-wrapper">
+                                        <span class="progress-label">30d</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill-30"
+                                                 style="width: {{ round($manager->progress30_percent) }}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                                <div class="actions">
 
+                                    <a class="btn btn-edit"
+                                       href="{{ route('office.task_managers.edit', $manager) }}">
+                                        Edit
+                                    </a>
+
+                                    <form method="POST"
+                                          action="{{ route('office.task_managers.destroy', $manager) }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-delete">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
                         </div>
-
                     @endforeach
 
                 </div>
