@@ -99,8 +99,7 @@
             </div>
         </div>
         <div class="settings-actions">
-            <a href="{{ route('password.request') }}" class="primary" style="text-decoration:none;"> Change Password</a>
-            <a href="{{ route('home') }}" class="secondary" style="text-decoration:none;">Delete Account</a>
+            <a href="{{ route('account.edit') }}" class="primary" style="text-decoration:none;"> Change Password</a>
         </div>
     </div>
 @endsection

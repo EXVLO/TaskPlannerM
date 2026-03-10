@@ -1,10 +1,10 @@
 {{--
-    Enhanced home page for authenticated users of TaskPlannerM.  This page
-    welcomes the user back and presents key sections such as features,
-    how it works, about us and use cases.  It extends the main layout
-    (`layouts.app`) so that the header and footer appear automatically.
-    Place this file at `resources/views/home.blade.php` to override the
-    default home page.
+    Enhanced home page that displays aggregated progress across all task managers,
+    highlights the most used task manager and task, and shows additional
+    productivity statistics. It also retains the existing feature, how‑it‑works,
+    about us and use cases sections for a complete overview. Place this file
+    at `resources/views/home.blade.php` in your Laravel application to
+    override the default home view.
 --}}
 
 @extends('layouts.app')
@@ -18,44 +18,52 @@
             margin:0 auto;
             padding:40px 20px;
         }
-        /* Hero section */
-        .home-hero{
-            text-align:center;
-            padding:80px 0;
+        .overview-grid{
+            display:grid;
+            gap:20px;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            margin-bottom:60px;
         }
-        .home-hero h1{
-            font-size:2.4rem;
-            font-weight:700;
+        .overview-card{
+            background:#1e293b;
+            border-radius:10px;
+            padding:24px;
+            box-shadow:0 4px 14px rgba(0,0,0,0.35);
+        }
+        .overview-card h2{
             color:#f1f5f9;
             margin-bottom:12px;
-        }
-        .home-hero p{
-            font-size:1.1rem;
-            color:#94a3b8;
-            margin-bottom:24px;
-        }
-        .home-hero .hero-buttons a{
-            display:inline-block;
-            margin:0 8px;
-            padding:12px 24px;
-            border-radius:8px;
+            font-size:1.4rem;
             font-weight:700;
-            transition:opacity 0.3s ease;
         }
-        .home-hero .hero-buttons a.primary{
-            background:linear-gradient(135deg,#2563eb,#7c3aed);
-            color:white;
+        .progress-wrapper{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:10px;
         }
-        .home-hero .hero-buttons a.secondary{
-            background:linear-gradient(135deg,#15803d,#22c55e);
-            color:white;
+        .progress-bar{
+            flex:1;
+            height:8px;
+            background:#334155;
+            border-radius:4px;
+            overflow:hidden;
         }
-        .home-hero .hero-buttons a:hover{
-            opacity:0.85;
+        .progress-fill-7{
+            height:100%;
+            background:linear-gradient(135deg,#059669,#047857);
         }
-        /* Features section */
+        .progress-fill-30{
+            height:100%;
+            background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        }
+        .details-item{
+            color:#94a3b8;
+            font-size:0.9rem;
+            margin:4px 0;
+        }
+        /* Feature cards */
         .home-features{
-            margin-top:60px;
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
             gap:20px;
@@ -77,7 +85,7 @@
             color:#94a3b8;
             font-size:0.9rem;
         }
-        /* How it works section */
+        /* How it works */
         .home-how{
             margin-top:60px;
         }
@@ -114,7 +122,7 @@
             color:#94a3b8;
             font-size:0.9rem;
         }
-        /* About us section */
+        /* About us */
         .home-about{
             margin-top:60px;
             text-align:center;
@@ -130,7 +138,7 @@
             max-width:700px;
             margin:0 auto;
         }
-        /* Use cases section */
+        /* Use cases */
         .home-use{
             margin-top:60px;
         }
@@ -166,28 +174,73 @@
 
 @section('content')
     <div class="home-wrapper">
-        {{-- Hero --}}
-        <section class="home-hero">
-            <h1>Welcome back to TaskPlannerM</h1>
-            <p>Your personal space to plan smarter and achieve more every day.</p>
+        {{-- Overview Section --}}
+        <section class="overview-grid">
+            <div class="overview-card">
+                <h2>Overall Progress</h2>
+                <div class="progress-wrapper">
+                    <span style="width:28px;color:#94a3b8;font-size:0.8rem;">7d</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill-7" style="width: {{ round($progress7Percent) }}%;"></div>
+                    </div>
+                    <span style="width:32px;color:#94a3b8;font-size:0.8rem;">{{ round($progress7Percent) }}%</span>
+                </div>
+                <div class="progress-wrapper">
+                    <span style="width:28px;color:#94a3b8;font-size:0.8rem;">30d</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill-30" style="width: {{ round($progress30Percent) }}%;"></div>
+                    </div>
+                    <span style="width:32px;color:#94a3b8;font-size:0.8rem;">{{ round($progress30Percent) }}%</span>
+                </div>
+            </div>
+            <div class="overview-card">
+                <h2>Favourite Manager</h2>
+                @if($favoriteManager)
+                    <p class="details-item"><strong>{{ $favoriteManager->name }}</strong></p>
+                    <p class="details-item">Tasks: {{ $favoriteManager->tasks->count() }}</p>
+                    <p class="details-item">Entries: {{ $favoriteManagerEntries }}</p>
+                @else
+                    <p class="details-item">No data available yet.</p>
+                @endif
+            </div>
+            <div class="overview-card">
+                <h2>Favourite Task</h2>
+                @if($favoriteTask)
+                    <p class="details-item"><strong>{{ $favoriteTask->name }}</strong></p>
+                    <p class="details-item">Manager: {{ $favoriteTask->taskManager->name }}</p>
+                    <p class="details-item">Entries: {{ $favoriteTaskEntries }}</p>
+                @else
+                    <p class="details-item">No data available yet.</p>
+                @endif
+            </div>
+            <div class="overview-card">
+                <h2>Additional Details</h2>
+                <p class="details-item">Managers: {{ $details['totalManagers'] }} ({{ $details['activeManagers'] }} active)</p>
+                <p class="details-item">Tasks: {{ $details['totalTasks'] }} ({{ $details['activeTasks'] }} active)</p>
+                <p class="details-item">Entries logged: {{ $details['totalEntries'] }}</p>
+                <p class="details-item">Tags: {{ $details['totalTags'] }}</p>
+            </div>
         </section>
         {{-- Features --}}
-        <section class="home-features">
-            <div class="home-feature">
-                <h3>Organize with Managers</h3>
-                <p>Create task managers to group related tasks and keep projects separate.</p>
-            </div>
-            <div class="home-feature">
-                <h3>Set Daily Goals</h3>
-                <p>Assign daily targets to your tasks to stay accountable and consistent.</p>
-            </div>
-            <div class="home-feature">
-                <h3>Visualize Progress</h3>
-                <p>See your weekly and monthly productivity at a glance with progress bars.</p>
-            </div>
-            <div class="home-feature">
-                <h3>Stay On Track</h3>
-                <p>Get reminders and insights to ensure you’re always moving towards your goals.</p>
+        <section>
+            <h2 style="font-size:1.8rem;color:#f1f5f9;margin-bottom:24px;text-align:center;">Features</h2>
+            <div class="home-features">
+                <div class="home-feature">
+                    <h3>Organize with Managers</h3>
+                    <p>Create task managers to group related tasks and keep projects separate.</p>
+                </div>
+                <div class="home-feature">
+                    <h3>Set Daily Goals</h3>
+                    <p>Assign daily targets to your tasks to stay accountable and consistent.</p>
+                </div>
+                <div class="home-feature">
+                    <h3>Visualize Progress</h3>
+                    <p>See your weekly and monthly productivity at a glance with progress bars.</p>
+                </div>
+                <div class="home-feature">
+                    <h3>Stay On Track</h3>
+                    <p>Get reminders and insights to ensure you’re always moving towards your goals.</p>
+                </div>
             </div>
         </section>
         {{-- How It Works --}}

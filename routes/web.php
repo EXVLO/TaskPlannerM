@@ -6,6 +6,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskEntryController;
+use App\Http\Controllers\ModifyAccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,11 +15,18 @@ Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     })->name('dashboard');
 });
 
 Route::middleware(['auth', 'verified'])->get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/modify-account', [ModifyAccountController::class, 'edit'])->name('account.edit');
+    Route::post('/modify-account', [ModifyAccountController::class, 'update'])->name('account.update');
+    Route::post('/modify-account/password', [ModifyAccountController::class, 'updatePassword'])->name('account.updatePassword');
+    Route::delete('/modify-account', [ModifyAccountController::class, 'destroy'])->name('account.destroy');
+});
 
 Route::middleware(['auth'])->get('/appsettings', [AppSettingsController::class, 'index'])->name('appsettings');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
