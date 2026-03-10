@@ -19,6 +19,16 @@ class TaskController extends Controller
             abort(403);
         }
 
+        // Block inactive manager or task
+        if (! $task_manager->is_active) {
+            return redirect()->route('office.index')
+                ->with('error', 'This task manager is not active right now.');
+        }
+        if (! $task->is_active) {
+            return redirect()->route('office.task_managers.show', $task_manager)
+                ->with('error', 'This task is not active right now.');
+        }
+
         $task->load('entries');
 
         return view('office.task_managers.tasks.show', compact('task_manager', 'task'));

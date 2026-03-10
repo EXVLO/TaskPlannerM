@@ -26,6 +26,13 @@ class OfficeController extends Controller
             abort(403, message: 'yleo');
         }
 
+        // Check if the manager is active
+        if (! $task_manager->is_active) {
+            // Redirect back with a message; adjust route as needed
+            return redirect()->route('office.index')
+                ->with('error', 'This task manager is not active right now.');
+        }
+
         $task_manager->load('tasks');
 
         return view('office.task_managers.show', compact('task_manager'));
