@@ -193,6 +193,39 @@
             opacity:0.8;
         }
 
+        /* …existing styles… */
+        .task-progress-bars {
+            display:flex;
+            gap:12px;
+            margin-top:6px;
+        }
+        .progress-wrapper {
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+        .progress-label {
+            font-size:10px;
+            color:#94a3b8;
+            width:24px;
+            text-align:right;
+        }
+        .progress-bar {
+            width:70px;
+            height:6px;
+            background:#1f2937;
+            border-radius:4px;
+            overflow:hidden;
+        }
+        .progress-fill-7 {
+            height:100%;
+            background:linear-gradient(135deg,#059669,#047857);
+        }
+        .progress-fill-30 {
+            height:100%;
+            background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        }
+
     </style>
 
     <div class="container">
@@ -246,22 +279,32 @@
                 <div class="tasks">
 
                     @foreach($task_manager->tasks as $task)
-
                         <div class="task-row">
-
                             <div class="task-info">
-
                                 <a class="task-name"
                                    href="{{ route('office.tasks.show', [$task_manager, $task]) }}">
                                     {{ $task->name }}
                                 </a>
-
                                 <div class="task-target">
                                     {{ $task->daily_target }} {{ $task->unit_type }} / day
                                 </div>
-
+                                <div class="task-progress-bars">
+                                    <div class="progress-wrapper">
+                                        <span class="progress-label">7d</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill-7"
+                                                 style="width: {{ round($task->progress7_percent) }}%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-wrapper">
+                                        <span class="progress-label">30d</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill-30"
+                                                 style="width: {{ round($task->progress30_percent) }}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="actions">
 
                                 <a class="btn btn-edit"
@@ -280,9 +323,7 @@
                                 </form>
 
                             </div>
-
                         </div>
-
                     @endforeach
 
                 </div>

@@ -32,7 +32,7 @@ class TaskEntryController extends Controller
             ]);
         }
 
-        return back();
+        return back()->with('success', 'Entry created successfully.');
     }
 
     public function update(Request $request, TaskManager $task_manager, Task $task, TaskEntry $entry)
@@ -45,13 +45,13 @@ class TaskEntryController extends Controller
             'actual_value' => $request->actual_value,
         ]);
 
-        return back();
+        return back()->with('success', 'Entry updated successfully.');
     }
 
     public function destroy(TaskManager $task_manager, Task $task, TaskEntry $entry)
     {
         $entry->delete();
 
-        return back();
+        return back()->with('success', 'Entry deleted successfully.');
     }
 }
