@@ -58,15 +58,15 @@ class OfficeController extends Controller
                 ->with('error', 'This task manager is not active right now.');
         }
 
-        $task_manager->load('tasks');
+        $task_manager->load('tasks.entries');
 
         foreach ($task_manager->tasks as $task) {
             // Sum actual_value for entries in the last 7 and 30 days
-            $last7Total = $task->entries()
-                ->whereDate('entry_date', '>=', Carbon::now()->subDays(6)->toDateString())
+            $last7Total = $task->entries
+                ->where('entry_date', '>=', Carbon::now()->subDays(6)->toDateString())
                 ->sum('actual_value');
-            $last30Total = $task->entries()
-                ->whereDate('entry_date', '>=', Carbon::now()->subDays(29)->toDateString())
+            $last30Total = $task->entries
+                ->where('entry_date', '>=', Carbon::now()->subDays(29)->toDateString())
                 ->sum('actual_value');
 
             // Compute percentage of the target achieved (clamp to 100%)

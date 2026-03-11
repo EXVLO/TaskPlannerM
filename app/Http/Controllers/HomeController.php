@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TaskEntry;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -72,10 +73,12 @@ class HomeController extends Controller
 
         $productivityScore = round($progress7Percent * 0.7 + $progress30Percent * 0.3);
 
-        $recentEntries = $managers->flatMap->tasks
-            ->flatMap->entries
-            ->sortByDesc('entry_date')
-            ->take(5);
+        $recentEntries = TaskEntry::query()
+            ->whereHas('task.taskManager', fn ($query) => $query->where('user_id', $user->id))
+            ->with('task:id,name,unit_type')
+            ->latest('entry_date')
+            ->take(5)
+            ->get();
 
         $allTasks = $managers->flatMap->tasks;
         $details = [

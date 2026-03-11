@@ -68,10 +68,6 @@
             background:linear-gradient(135deg,#2563eb,#7c3aed);
             color:white;
         }
-        .settings-actions a.secondary{
-            background:linear-gradient(135deg,#15803d,#22c55e);
-            color:white;
-        }
         .settings-actions a:hover{
             opacity:0.85;
         }
@@ -95,14 +91,14 @@
         <div class="settings-grid">
             <div class="settings-card">
                 <h3>User Information</h3>
-                <p><strong>Name:</strong> {{ Auth::user()->name }}</p>
-                <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-                <p><strong>Member since:</strong> {{ Auth::user()->created_at->format('M d, Y') }}</p>
+                <p><strong>Name:</strong> {{ $user->name }}</p>
+                <p><strong>Email:</strong> {{ $user->email }}</p>
+                <p><strong>Member since:</strong> {{ $user->created_at->format('M d, Y') }}</p>
             </div>
             <div class="settings-card">
                 <h3>Progress Overview</h3>
-                <p>Number of task managers: {{ Auth::user()->taskManagers()->count() }}</p>
-                <p>Number of tasks: {{ Auth::user()->taskManagers->flatMap->tasks->count() }}</p>
+                <p>Number of task managers: {{ $taskManagersCount }}</p>
+                <p>Number of tasks: {{ $tasksCount }}</p>
                 <p>Keep pushing towards your goals!</p>
             </div>
         </div>
