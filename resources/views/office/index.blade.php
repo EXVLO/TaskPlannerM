@@ -261,7 +261,8 @@
                                     </a>
 
                                     <form method="POST"
-                                          action="{{ route('office.task_managers.destroy', $manager) }}">
+                                          action="{{ route('office.task_managers.destroy', $manager) }}"
+                                          onsubmit="return confirm('Are you sure you want to delete?')">
                                         @csrf
                                         @method('DELETE')
 

@@ -251,7 +251,10 @@
                 Once your account is deleted, all tasks, task managers and data will be permanently removed.
             </p>
 
-            <form method="POST" action="{{ route('account.destroy') }}" class="delete-form">
+            <form method="POST"
+                  action="{{ route('account.destroy') }}"
+                  class="delete-form"
+                  onsubmit="return confirm('Are you sure you want to delete?')">
 
                 @csrf
                 @method('DELETE')

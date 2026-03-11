@@ -317,7 +317,8 @@
                                 </a>
 
                                 <form method="POST"
-                                      action="{{ route('office.tasks.destroy', [$task_manager,$task]) }}">
+                                      action="{{ route('office.tasks.destroy', [$task_manager,$task]) }}"
+                                      onsubmit="return confirm('Are you sure you want to delete?')">
                                     @csrf
                                     @method('DELETE')
 
