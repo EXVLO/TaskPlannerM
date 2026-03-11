@@ -88,6 +88,13 @@
             {{-- Example news cards. Replace or loop through real news items as needed. --}}
             <div class="news-card">
                 <div class="news-card-content">
+                    <h3>Fixed N+1 Queries and improved UI</h3>
+                    <div class="date">March 11, 2026</div>
+                    <p>Improved quality and UI for website</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-card-content">
                     <h3>New Dashboard Released</h3>
                     <div class="date">March 1, 2026</div>
                     <p>We’ve launched a refreshed dashboard with improved analytics and a more responsive design to help you track your productivity better.</p>
