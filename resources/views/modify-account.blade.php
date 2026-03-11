@@ -143,6 +143,16 @@
             text-align:center;
         }
 
+        .back-link{
+            color:#60a5fa;
+            text-decoration:none;
+            font-weight:700;
+        }
+
+        .back-link:hover{
+            opacity:0.8;
+        }
+
     </style>
 @endpush
 
@@ -253,6 +263,10 @@
             </form>
 
         </div>
+
+        <a href="{{ route('appsettings') }}" class="back-link">
+            ← Back to Settings
+        </a>
 
     </div>
 

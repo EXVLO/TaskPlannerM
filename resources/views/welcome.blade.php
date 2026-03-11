@@ -293,8 +293,20 @@
     <div class="welcome-container">
         {{-- Hero Section --}}
         <section class="welcome-hero">
-            <h1 class="text-gradient">Plan Smarter. Achieve More.</h1>
-            <p>TaskPlannerM helps you organize tasks, track daily progress, and stay productive.</p>
+            <h1 class="text-gradient">
+                @auth
+                    Welcome back {{ auth()->user()->name }}
+                @else
+                    Plan Smarter. Achieve More.
+                @endauth
+            </h1>
+            <p>
+                @auth
+                    organize tasks, track daily progress, and stay productive.
+                @else
+                    TaskPlannerM helps you organize tasks, track daily progress, and stay productive.
+                @endauth
+            </p>
             <div class="cta-main">
                 @guest
                     @if (Route::has('login'))
