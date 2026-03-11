@@ -158,6 +158,15 @@
         {{-- Overview Section --}}
         <section class="overview-grid">
             <div class="overview-card">
+                <h2>Streaks</h2>
+                <p class="details-item">Current streak: <strong>{{ $currentStreak }} day{{ $currentStreak === 1 ? '' : 's' }}</strong></p>
+                <p class="details-item">Best streak: <strong>{{ $bestStreak }} day{{ $bestStreak === 1 ? '' : 's' }}</strong></p>
+            </div>
+            <div class="overview-card">
+                <h2>Productivity Score</h2>
+                <p class="details-item"><strong>{{ $productivityScore }}%</strong> (combined 7d & 30d progress)</p>
+            </div>
+            <div class="overview-card">
                 <h2>Overall Progress</h2>
                 <div class="progress-wrapper">
                     <span style="width:28px;color:#94a3b8;font-size:0.8rem;">7d</span>
@@ -202,6 +211,57 @@
                 <p class="details-item">Tags: {{ $details['totalTags'] }}</p>
             </div>
         </section>
+        {{-- Missed Tasks --}}
+        <section class="overview-grid">
+            <div class="overview-card" style="grid-column: 1 / -1;">
+                <h2>Missed Tasks</h2>
+                @forelse($missedTasks as $task)
+                    @php
+                        $todaySum = $task->entries->where('entry_date', today())->sum('actual_value');
+                        $remaining = $task->daily_target - $todaySum;
+                    @endphp
+                    <p class="details-item">
+                        <strong>{{ $task->name }}</strong> – you are {{ $remaining }} {{ $task->unit_type }}
+                        short of today’s target ({{ $todaySum }} / {{ $task->daily_target }}).
+                    </p>
+                @empty
+                    <p class="details-item">Great job! You met all your targets today.</p>
+                @endforelse
+            </div>
+        </section>
+        {{-- Goal Proggress --}}
+        <section class="overview-grid">
+            <div class="overview-card" style="grid-column: 1 / -1;">
+                <h2>Monthly Goal</h2>
+                <p class="details-item">
+                    Target: <strong>{{ $monthlyTarget }}</strong> &nbsp;
+                    Completed: <strong>{{ $actualMonthEntries }}</strong>
+                </p>
+                @php
+                    $goalPercent = $monthlyTarget > 0
+                        ? min(100, round(($actualMonthEntries / $monthlyTarget) * 100))
+                        : 0;
+                @endphp
+                <div class="progress-bar">
+                    <div class="progress-fill-30" style="width: {{ $goalPercent }}%;"></div>
+                </div>
+            </div>
+        </section>
+        {{-- Recent Activity --}}
+        <section class="overview-grid">
+            <div class="overview-card" style="grid-column: 1 / -1;">
+                <h2>Recent Activity</h2>
+                @forelse($recentEntries as $entry)
+                    <p class="details-item">
+                        ✔ {{ $entry->entry_date->format('M d, Y') }} – Logged
+                        <strong>{{ $entry->actual_value }}</strong> {{ $entry->task->unit_type }}
+                        for <strong>{{ $entry->task->name }}</strong>
+                    </p>
+                @empty
+                    <p class="details-item">No recent activity.</p>
+                @endforelse
+            </div>
+        </section>
         {{-- About Us --}}
         <section class="home-about">
             <h2>About Us</h2>
@@ -210,4 +270,5 @@
                 powerful tool that keeps you motivated and on track.</p>
         </section>
     </div>
+    <blockquote style="font-style:italic;color:#cbd5e1;text-align:right;">{{ $quoteOfTheDay }}</blockquote>
 @endsection
