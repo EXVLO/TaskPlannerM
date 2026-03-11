@@ -510,9 +510,17 @@
                 <div class="bar" style="margin-top:12px;"><span style="width: {{ $goalPercent }}%"></span></div>
             </div>
         </section>
-
         <section class="quote">
             "{{ $quoteOfTheDay }}"
+        </section>
+
+        <section class="panel">
+            <h2>About Us</h2>
+            <p class="text">
+                TaskPlannerM started as a study-driven project to practice modern web development and software
+                engineering. It evolved into a practical productivity tool focused on daily structure, consistent
+                tracking, and long-term progress through simple workflows.
+            </p>
         </section>
     </div>
 
