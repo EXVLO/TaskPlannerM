@@ -344,7 +344,7 @@
 
         {{-- Back Button --}}
         <a href="{{ route('office.index') }}" class="back-link">
-            ← Back to Task Managers
+            ← Back to Office
         </a>
 
     </div>

@@ -44,8 +44,7 @@ class TagController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('tags')
-                    ->where('user_id', auth()->id()),
+                Rule::unique('tags')->where('task_id', $task->id),
             ],
             'color' => ['nullable', 'string', 'max:20'],
         ]);

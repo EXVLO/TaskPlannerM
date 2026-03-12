@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppSettingsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TagController;
@@ -19,7 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::middleware(['auth', 'verified'])->get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth', 'verified'])->get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/modify-account', [ModifyAccountController::class, 'edit'])->name('account.edit');

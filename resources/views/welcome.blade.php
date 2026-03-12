@@ -74,21 +74,8 @@
             color: #ffffff;
         }
 
-        .welcome-hero .cta-main a.secondary {
-            background: linear-gradient(135deg, #15803d, #22c55e);
-            color: #ffffff;
-        }
-
         .welcome-hero .cta-main a:hover {
             opacity: 0.85;
-        }
-
-        /* Features grid */
-        .welcome-features {
-            margin-top: 80px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
         }
 
         .feature-card {
@@ -114,14 +101,6 @@
             font-size: 0.95rem;
         }
 
-        /* How it works */
-        .welcome-steps {
-            margin-top: 80px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
         .step-card {
             background: #1e293b;
             border-radius: 10px;
@@ -138,19 +117,6 @@
         .step-card p {
             font-size: 0.9rem;
             color: #94a3b8;
-        }
-
-        /* Dashboard preview */
-        .welcome-preview {
-            margin-top: 80px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .welcome-preview img {
-            max-width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
 
         /* Use cases */
@@ -189,48 +155,6 @@
         .case-card p {
             font-size: 0.9rem;
             color: #94a3b8;
-        }
-
-        /* Call to action */
-        .welcome-cta {
-            margin-top: 80px;
-            text-align: center;
-        }
-
-        .welcome-cta h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #f1f5f9;
-        }
-
-        .welcome-cta .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .welcome-cta .cta-buttons a {
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-weight: 700;
-            transition: opacity 0.3s ease;
-            display: inline-block;
-        }
-
-        .welcome-cta .cta-buttons a.primary {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: #ffffff;
-        }
-
-        .welcome-cta .cta-buttons a.secondary {
-            background: linear-gradient(135deg, #15803d, #22c55e);
-            color: #ffffff;
-        }
-
-        .welcome-cta .cta-buttons a:hover {
-            opacity: 0.85;
         }
 
         @media (max-width: 768px) {

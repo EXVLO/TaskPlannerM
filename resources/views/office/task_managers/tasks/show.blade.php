@@ -26,17 +26,6 @@
             box-shadow:0 18px 40px rgba(37,99,235,0.35);
         }
 
-        .task-title{
-            font-size:38px;
-            font-weight:800;
-            margin-bottom:8px;
-        }
-
-        .task-meta{
-            font-size:15px;
-            color:#9ca3af;
-        }
-
         .task-meta strong{
             color:#e5e7eb;
         }
@@ -459,13 +448,9 @@
                                 {{ $displayPercent }}
                             </span>
 
-                            </td>
-
                             <td>
 
                                 <button class="btn btn-update">Update</button>
-
-                                </form>
 
                                 <form method="POST"
                                       action="{{ route('office.tasks.entries.destroy', [$task_manager, $task, $entry]) }}"
@@ -479,8 +464,6 @@
                                 </form>
 
                             </td>
-
-                        </tr>
 
                     @endforeach
 
@@ -593,7 +576,7 @@
 
 
         <a href="{{ route('office.task_managers.show', $task_manager) }}" class="back-link">
-            ← Back to Tasks
+            ← Back to Task Manager
         </a>
 
     </div>

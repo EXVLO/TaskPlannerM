@@ -107,16 +107,6 @@
             border:1px solid #374151;
         }
 
-        .success{
-            background:#052e16;
-            color:#4ade80;
-            border:1px solid #14532d;
-            padding:12px 16px;
-            border-radius:10px;
-            margin-bottom:16px;
-            font-weight:600;
-        }
-
         .back{
             display:inline-block;
             margin-top:10px;
@@ -269,6 +259,8 @@
 
                     @foreach($tags as $tag)
 
+                        @php($updateFormId = 'update-tag-' . $tag->id)
+
                         <tr>
 
                             <td>
@@ -279,32 +271,27 @@
                             </td>
 
                             <td>
-
-                                <form method="POST"
-                                      action="{{ route('office.tags.update', [$task_manager,$task,$tag]) }}"
-                                      style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap">
-
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <input type="text"
-                                           name="name"
-                                           value="{{ $tag->name }}">
-
-                                    <input type="color"
-                                           name="color"
-                                           value="{{ $tag->color }}">
-
+                                <input type="text"
+                                       name="name"
+                                       value="{{ $tag->name }}"
+                                       form="{{ $updateFormId }}">
+                                <input type="color"
+                                       name="color"
+                                       value="{{ $tag->color }}"
+                                       form="{{ $updateFormId }}">
                             </td>
 
                             <td>
-
-                                <button class="btn-update" type="submit">
-                                    Update
-                                </button>
-
+                                <form id="{{ $updateFormId }}"
+                                      method="POST"
+                                      action="{{ route('office.tags.update', [$task_manager,$task,$tag]) }}"
+                                      style="display:inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn-update" type="submit">
+                                        Update
+                                    </button>
                                 </form>
-
                             </td>
 
                             <td>
