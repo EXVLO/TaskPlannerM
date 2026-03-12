@@ -76,6 +76,7 @@
 </style>
 
 <footer class="footer">
+    {{-- Section wrapper --}}
     <div class="footer-container">
         <div class="footer-col">
             <div class="footer-brand">TaskPlannerM</div>
@@ -106,7 +107,9 @@
             </ul>
         </div>
     </div>
+    {{-- Section wrapper --}}
     <div class="footer-bottom">
         &copy; {{ date('Y') }} TaskPlannerM. All rights reserved.
     </div>
 </footer>
+
