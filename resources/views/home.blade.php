@@ -149,6 +149,7 @@
 
 @section('content')
     <h1 class="text-gradient home-page-title">Home</h1>
+    {{-- Home page wrapper --}}
     <div class="home-wrapper">
         {{-- Overview Section --}}
         <section class="overview-grid">
@@ -268,3 +269,4 @@
     </div>
     <blockquote style="font-style:italic;color:#cbd5e1;text-align:right;">{{ $quoteOfTheDay }}</blockquote>
 @endsection
+

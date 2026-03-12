@@ -83,6 +83,7 @@
 {{--------- --------- ---------}}
 
 @section('content')
+    {{-- Section wrapper --}}
     <div class="news-wrapper">
         <div class="news-header">
             <h1 class = "text-gradient">News & Updates</h1>
@@ -125,3 +126,4 @@
         </div>
     </div>
 @endsection
+

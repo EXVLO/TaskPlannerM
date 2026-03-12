@@ -87,6 +87,7 @@
 {{--------- --------- ---------}}
 
 @section('content')
+    {{-- App settings page wrapper --}}
     <div class="settings-wrapper">
         <div class="settings-header">
             <h1 class = "text-gradient">Your Settings</h1>
@@ -111,3 +112,4 @@
         </div>
     </div>
 @endsection
+

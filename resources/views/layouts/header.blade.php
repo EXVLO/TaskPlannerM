@@ -126,6 +126,7 @@
         // Determine the current route name to apply active state
         $current = request()->route()->getName();
     @endphp
+    {{-- Section wrapper --}}
     <div class="main-header">
         <nav class="main-nav">
             <a href="{{ route('welcome') }}" class="brand">
@@ -152,3 +153,4 @@
         </nav>
     </div>
 </header>
+

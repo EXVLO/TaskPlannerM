@@ -284,6 +284,7 @@
 {{--------- --------- ---------}}
 
 @section('content')
+    {{-- Welcome page wrapper --}}
     <div class="welcome-container">
         {{-- Hero Section --}}
         <section class="welcome-hero">
@@ -395,3 +396,4 @@
         </div>
     </section>
 @endsection
+
