@@ -16,8 +16,6 @@
             color:#9ca3af;
         }
 
-        /* HEADER */
-
         .office-header{
             background:linear-gradient(135deg,#111827,#1f2937,#312e81);
             color:white;
@@ -197,6 +195,10 @@
 
     </style>
 
+    {{--------- --------- ---------}}
+    {{--------- Main Part ---------}}
+    {{--------- --------- ---------}}
+
     <div class="container">
 
         <div class="office-header">
@@ -209,6 +211,7 @@
 
         <div class="card">
 
+            {{-- Add Task Manager Button --}}
             <div style="display:flex;justify-content:space-between;align-items:center">
 
                 <h3 class="section-title">Task Managers</h3>
@@ -225,6 +228,7 @@
 
             @else
 
+                {{-- List of Task Managers --}}
                 <div class="Task Managers">
 
                     @foreach ($taskManagers as $manager)
@@ -253,6 +257,7 @@
                                     </div>
                                 </div>
                             </div>
+                                {{-- Action Buttons Edit/Delete --}}
                                 <div class="actions">
 
                                     <a class="btn btn-edit"

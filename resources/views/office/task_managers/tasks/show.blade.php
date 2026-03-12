@@ -314,6 +314,10 @@
 
     </style>
 
+    {{--------- --------- ---------}}
+    {{--------- Main Part ---------}}
+    {{--------- --------- ---------}}
+
     <div class="container">
 
         <div class="task-header">
@@ -344,6 +348,7 @@
 
             </div>
 
+            {{-- List of Tags --}}
             @if($task->tags->isEmpty())
 
                 <p>No tags attached.</p>

@@ -188,6 +188,10 @@
 
     </style>
 
+    {{--------- --------- ---------}}
+    {{--------- Main Part ---------}}
+    {{--------- --------- ---------}}
+
     <div class="container">
 
         <div class="form-header">
@@ -201,6 +205,7 @@
         <div class="card">
 
             <h3 class="section-title">Manager Details</h3>
+
 
             <form method="POST"
                   action="{{ isset($task_manager)

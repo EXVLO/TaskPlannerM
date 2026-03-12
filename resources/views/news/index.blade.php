@@ -78,14 +78,19 @@
     </style>
 @endpush
 
+{{--------- --------- ---------}}
+{{--------- Main Part ---------}}
+{{--------- --------- ---------}}
+
 @section('content')
     <div class="news-wrapper">
         <div class="news-header">
             <h1 class = "text-gradient">News & Updates</h1>
             <p>Stay informed about what’s new and upcoming at TaskPlannerM.</p>
         </div>
+        {{-- News Card --}}
         <div class="news-grid">
-            {{-- Example news cards. Replace or loop through real news items as needed. --}}
+            {{-- Card 1 --}}
             <div class="news-card">
                 <div class="news-card-content">
                     <h3>Fixed N+1 Queries and improved UI</h3>
@@ -93,6 +98,7 @@
                     <p>Improved quality and UI for website</p>
                 </div>
             </div>
+            {{-- Card 2 --}}
             <div class="news-card">
                 <div class="news-card-content">
                     <h3>New Dashboard Released</h3>
@@ -100,6 +106,7 @@
                     <p>We’ve launched a refreshed dashboard with improved analytics and a more responsive design to help you track your productivity better.</p>
                 </div>
             </div>
+            {{-- Card 3 --}}
             <div class="news-card">
                 <div class="news-card-content">
                     <h3>Tagging System Upgrade</h3>
@@ -107,6 +114,7 @@
                     <p>Tags now support custom colors and descriptions, making it easier to categorize and filter your tasks efficiently.</p>
                 </div>
             </div>
+            {{-- Card 4 --}}
             <div class="news-card">
                 <div class="news-card-content">
                     <h3>Mobile App Coming Soon</h3>

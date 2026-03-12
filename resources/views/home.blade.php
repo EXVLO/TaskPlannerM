@@ -1,12 +1,3 @@
-{{--
-    Enhanced home page that displays aggregated progress across all task managers,
-    highlights the most used task manager and task, and shows additional
-    productivity statistics. It also retains the existing feature, how‑it‑works,
-    about us and use cases sections for a complete overview. Place this file
-    at `resources/views/home.blade.php` in your Laravel application to
-    override the default home view.
---}}
-
 @extends('layouts.app')
 
 @section('title', 'Home')
@@ -151,6 +142,10 @@
         }
     </style>
 @endpush
+
+{{--------- --------- ---------}}
+{{--------- Main Part ---------}}
+{{--------- --------- ---------}}
 
 @section('content')
     <h1 class="text-gradient home-page-title">Home</h1>

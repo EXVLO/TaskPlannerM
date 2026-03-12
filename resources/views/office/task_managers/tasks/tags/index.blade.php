@@ -197,6 +197,10 @@
 
     </style>
 
+    {{--------- --------- ---------}}
+    {{--------- Main Part ---------}}
+    {{--------- --------- ---------}}
+
     <div class="container">
 
         <div class="task-header">
@@ -329,7 +333,7 @@
 
         </div>
 
-
+        {{-- Back Buttons --}}
         <a href="{{ route('office.tasks.show',[$task_manager,$task]) }}" class="back">
             ← Back to Task
         </a>

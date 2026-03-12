@@ -82,6 +82,10 @@
     </style>
 @endpush
 
+{{--------- --------- ---------}}
+{{--------- Main Part ---------}}
+{{--------- --------- ---------}}
+
 @section('content')
     <div class="settings-wrapper">
         <div class="settings-header">

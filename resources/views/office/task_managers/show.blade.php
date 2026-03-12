@@ -232,6 +232,10 @@
 
     </style>
 
+    {{--------- --------- ---------}}
+    {{--------- Main Part ---------}}
+    {{--------- --------- ---------}}
+
     <div class="container">
 
         <div class="manager-header">
@@ -274,6 +278,7 @@
 
             </div>
 
+            {{-- List of Tasks--}}
             @if($task_manager->tasks->isEmpty())
 
                 <p>No tasks yet.</p>
@@ -337,7 +342,7 @@
 
         </div>
 
-
+        {{-- Back Button --}}
         <a href="{{ route('office.index') }}" class="back-link">
             ← Back to Task Managers
         </a>

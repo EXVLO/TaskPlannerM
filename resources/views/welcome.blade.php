@@ -1,13 +1,3 @@
-{{--
-    This is a redesigned welcome page for TaskPlannerM.  It uses a clean,
-    modern dark‑theme layout with sections for features, workflow, use cases
-    and a call to action.  A large faint background text (“TaskPlannerM”) adds
-    visual interest to the hero section.  The page automatically shows
-    login/register buttons when the visitor is not authenticated and a
-    home/dashboard button when they are.  To apply this file to your
-    application, place it at `resources/views/welcome.blade.php`.
---}}
-
 @extends('layouts.app')
 
 @section('title', 'Welcome')
@@ -289,6 +279,10 @@
     </style>
 @endpush
 
+{{--------- --------- ---------}}
+{{--------- Main Part ---------}}
+{{--------- --------- ---------}}
+
 @section('content')
     <div class="welcome-container">
         {{-- Hero Section --}}
@@ -392,6 +386,7 @@
         </section>
     </div>
 
+    {{-- Bold Part --}}
     <section>
         <div>
             <p></p>
