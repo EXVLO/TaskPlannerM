@@ -407,7 +407,6 @@
                     <tr>
                         <th>Date</th>
                         <th>Value</th>
-                        <th>Actions</th>
                     </tr>
 
                     @foreach ($task->entries->sortByDesc('entry_date') as $entry)
@@ -429,10 +428,9 @@
                             </td>
 
                             <td>
-
                                 <form method="POST"
                                       action="{{ route('office.tasks.entries.update', [$task_manager, $task, $entry]) }}"
-                                      style="display:flex;justify-content:center;align-items:center;gap:8px">
+                                      style="display:inline-flex;justify-content:center;align-items:center;gap:8px">
 
                                     @csrf
                                     @method('PATCH')
@@ -442,28 +440,24 @@
                                            value="{{ $entry->actual_value }}"
                                            class="value-input">
 
-                                    <span class="percent
-                                {{ $isInfinity ? 'percent-infinity' : ($good ? 'percent-good' : 'percent-bad') }}
-                            ">
-                                {{ $displayPercent }}
-                            </span>
+                                    <span class="percent {{ $isInfinity ? 'percent-infinity' : ($good ? 'percent-good' : 'percent-bad') }}">
+                                    {{ $displayPercent }}
+                                </span>
 
-                            <td>
-
-                                <button class="btn btn-update">Update</button>
+                                    <button class="btn btn-update">Update</button>
+                                </form>
 
                                 <form method="POST"
                                       action="{{ route('office.tasks.entries.destroy', [$task_manager, $task, $entry]) }}"
-                                      style="display:inline-block">
+                                      style="display:inline-block;margin-left:8px">
 
                                     @csrf
                                     @method('DELETE')
 
                                     <button class="btn btn-delete">Delete</button>
-
                                 </form>
-
                             </td>
+                        </tr>
 
                     @endforeach
 
