@@ -86,6 +86,15 @@
             background:#1f2937;
             color:white;
         }
+        .nav-link.active{
+            color:#ffffff;
+            background:linear-gradient(135deg, rgba(37,99,235,0.3), rgba(124,58,237,0.3));
+            border:1px solid rgba(96,165,250,0.45);
+            box-shadow:
+                0 0 0 1px rgba(96,165,250,0.2),
+                0 0 18px rgba(59,130,246,0.45),
+                0 0 28px rgba(124,58,237,0.35);
+        }
 
         /* Logout button */
         .logout-form{
@@ -122,10 +131,6 @@
             }
         }
     </style>
-    @php
-        // Determine the current route name to apply active state
-        $current = request()->route()->getName();
-    @endphp
     {{-- Section wrapper --}}
     <div class="main-header">
         <nav class="main-nav">
@@ -137,10 +142,10 @@
                 </div>
             </a>
             <div class="nav-links">
-                <a href="{{ route('home') }}" class="nav-link {{ $current === 'home' ? 'active' : '' }}">Home</a>
-                <a href="{{ route('office.index') }}" class="nav-link {{ $current === 'office.index' ? 'active' : '' }}">Office</a>
-                <a href="{{ route('appsettings') }}" class="nav-link {{ $current === 'appsettings' ? 'active' : '' }}">Settings</a>
-                <a href="{{ route('news') }}" class="nav-link {{ $current === 'news' ? 'active' : '' }}">News</a>
+                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('office.index') }}" class="nav-link {{ request()->routeIs('office.*') ? 'active' : '' }}">Office</a>
+                <a href="{{ route('appsettings') }}" class="nav-link {{ request()->routeIs('appsettings') ? 'active' : '' }}">Settings</a>
+                <a href="{{ route('news') }}" class="nav-link {{ request()->routeIs('news') ? 'active' : '' }}">News</a>
             </div>
             <div class="nav-right">
                 @auth

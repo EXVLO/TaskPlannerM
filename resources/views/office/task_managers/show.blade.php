@@ -250,7 +250,7 @@
 
                 <p>
                     Start Date:
-                    <strong>{{ $task_manager->start_date }}</strong>
+                    <strong>{{ optional($task_manager->start_date)->format('m/d/Y') }}</strong>
                 </p>
 
                 <p>

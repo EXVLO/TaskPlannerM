@@ -238,6 +238,9 @@
                                    href="{{ route('office.task_managers.show', $manager) }}">
                                     {{ $manager->name }}
                                 </a>
+                                <p style="margin:6px 0 0 0;font-size:12px;color:#94a3b8;">
+                                    Start Date: {{ optional($manager->start_date)->format('m/d/Y') }}
+                                </p>
 
                                 {{-- progress bars --}}
                                 <div class="manager-progress-bars">

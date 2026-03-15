@@ -320,6 +320,9 @@
             <p>
                 Daily Target: <strong>{{ $task->daily_target }} {{ $task->unit_type }}</strong>
             </p>
+            <p>
+                Manager Start Date: <strong>{{ optional($task_manager->start_date)->format('m/d/Y') }}</strong>
+            </p>
 
         </div>
 
@@ -376,7 +379,9 @@
 
                 <input type="date"
                        name="entry_date"
-                       value="{{ now()->toDateString() }}"
+                       min="{{ optional($task_manager->start_date)->format('Y-m-d') }}"
+                       max="{{ now()->addDay()->toDateString() }}"
+                       value="{{ max(optional($task_manager->start_date)->format('Y-m-d'), now()->toDateString()) }}"
                        required>
 
                 <input type="number"
@@ -473,9 +478,16 @@
             <h3 class="section-title">Last 7 Days Progress</h3>
 
             @php
-                $weekEntries = $task->entries->where('entry_date', '>=', now()->subDays(7));
+                $weekStart = now()->subDays(6)->startOfDay();
+                $managerStart = optional($task_manager->start_date)?->copy()->startOfDay();
+                $weekEffectiveStart = $managerStart && $managerStart->greaterThan($weekStart) ? $managerStart : $weekStart;
+                $weekActiveDays = $weekEffectiveStart->greaterThan(now()->startOfDay())
+                    ? 0
+                    : $weekEffectiveStart->diffInDays(now()->startOfDay()) + 1;
+                $weekEntries = $task->entries
+                    ->filter(fn($entry) => $entry->entry_date->betweenIncluded($weekEffectiveStart, now()->startOfDay()));
                 $weekDone = $weekEntries->sum('actual_value');
-                $weekRequired = $task->daily_target * 7;
+                $weekRequired = $task->daily_target * $weekActiveDays;
 
                 $weekPercent = $weekRequired > 0
                     ? round(($weekDone / $weekRequired) * 100)
@@ -495,9 +507,16 @@
             <h3 class="section-title">Last 30 Days Progress</h3>
 
             @php
-                $monthEntries = $task->entries->where('entry_date', '>=', now()->subDays(30));
+                $monthStart = now()->subDays(29)->startOfDay();
+                $managerStart = optional($task_manager->start_date)?->copy()->startOfDay();
+                $monthEffectiveStart = $managerStart && $managerStart->greaterThan($monthStart) ? $managerStart : $monthStart;
+                $monthActiveDays = $monthEffectiveStart->greaterThan(now()->startOfDay())
+                    ? 0
+                    : $monthEffectiveStart->diffInDays(now()->startOfDay()) + 1;
+                $monthEntries = $task->entries
+                    ->filter(fn($entry) => $entry->entry_date->betweenIncluded($monthEffectiveStart, now()->startOfDay()));
                 $monthDone = $monthEntries->sum('actual_value');
-                $monthRequired = $task->daily_target * 30;
+                $monthRequired = $task->daily_target * $monthActiveDays;
 
                 $monthPercent = $monthRequired > 0
                     ? round(($monthDone / $monthRequired) * 100)

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use App\Models\TaskManager;
-use carbon\carbon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,20 +19,30 @@ class OfficeController extends Controller
         foreach ($taskManagers as $manager) {
             $sumActual7 = $sumTarget7 = 0;
             $sumActual30 = $sumTarget30 = 0;
+            $today = Carbon::today();
+            $managerStart = Carbon::parse($manager->start_date)->startOfDay();
+            $windowStart7 = $today->copy()->subDays(6);
+            $windowStart30 = $today->copy()->subDays(29);
+            $effectiveStart7 = $windowStart7->greaterThan($managerStart) ? $windowStart7 : $managerStart;
+            $effectiveStart30 = $windowStart30->greaterThan($managerStart) ? $windowStart30 : $managerStart;
+            $activeDays7 = $effectiveStart7->greaterThan($today) ? 0 : $effectiveStart7->diffInDays($today) + 1;
+            $activeDays30 = $effectiveStart30->greaterThan($today) ? 0 : $effectiveStart30->diffInDays($today) + 1;
 
             foreach ($manager->tasks->where('is_active', true) as $task) {
-                // sum actual values for this task over the last 7 days
-                $actual7 = $task->entries->where('entry_date', '>=', Carbon::now()->subDays(6)->toDateString())
+                // sum actual values for this task over the active manager window
+                $actual7 = $task->entries
+                    ->filter(fn ($entry) => $entry->entry_date->betweenIncluded($effectiveStart7, $today))
                     ->sum('actual_value');
-                $actual30 = $task->entries->where('entry_date', '>=', Carbon::now()->subDays(29)->toDateString())
+                $actual30 = $task->entries
+                    ->filter(fn ($entry) => $entry->entry_date->betweenIncluded($effectiveStart30, $today))
                     ->sum('actual_value');
 
                 $sumActual7 += $actual7;
                 $sumActual30 += $actual30;
 
-                // target = daily_target × number of days
-                $sumTarget7 += $task->daily_target * 7;
-                $sumTarget30 += $task->daily_target * 30;
+                // target = daily_target × active days in each window since manager start
+                $sumTarget7 += $task->daily_target * $activeDays7;
+                $sumTarget30 += $task->daily_target * $activeDays30;
             }
 
             // compute percentage for the manager (cap at 100 %)
@@ -53,28 +62,38 @@ class OfficeController extends Controller
 
         // Check if the manager is active
         if (! $task_manager->is_active) {
-            // Redirect back with a message; adjust route as needed
             return redirect()->route('office.index')
                 ->with('error', 'This task manager is not active right now.');
         }
 
         $task_manager->load('tasks.entries');
+        $today = Carbon::today();
+        $managerStart = Carbon::parse($task_manager->start_date)->startOfDay();
+        $windowStart7 = $today->copy()->subDays(6);
+        $windowStart30 = $today->copy()->subDays(29);
+        $effectiveStart7 = $windowStart7->greaterThan($managerStart) ? $windowStart7 : $managerStart;
+        $effectiveStart30 = $windowStart30->greaterThan($managerStart) ? $windowStart30 : $managerStart;
+        $activeDays7 = $effectiveStart7->greaterThan($today) ? 0 : $effectiveStart7->diffInDays($today) + 1;
+        $activeDays30 = $effectiveStart30->greaterThan($today) ? 0 : $effectiveStart30->diffInDays($today) + 1;
 
         foreach ($task_manager->tasks as $task) {
-            // Sum actual_value for entries in the last 7 and 30 days
+            // Sum actual_value for entries in the active manager window
             $last7Total = $task->entries
-                ->where('entry_date', '>=', Carbon::now()->subDays(6)->toDateString())
+                ->filter(fn ($entry) => $entry->entry_date->betweenIncluded($effectiveStart7, $today))
                 ->sum('actual_value');
             $last30Total = $task->entries
-                ->where('entry_date', '>=', Carbon::now()->subDays(29)->toDateString())
+                ->filter(fn ($entry) => $entry->entry_date->betweenIncluded($effectiveStart30, $today))
                 ->sum('actual_value');
 
+            $target7 = $task->daily_target * $activeDays7;
+            $target30 = $task->daily_target * $activeDays30;
+
             // Compute percentage of the target achieved (clamp to 100%)
-            $task->progress7_percent = $task->daily_target
-                ? min(100, ($last7Total / ($task->daily_target * 7)) * 100)
+            $task->progress7_percent = $target7 > 0
+                ? min(100, ($last7Total / $target7) * 100)
                 : 0;
-            $task->progress30_percent = $task->daily_target
-                ? min(100, ($last30Total / ($task->daily_target * 30)) * 100)
+            $task->progress30_percent = $target30 > 0
+                ? min(100, ($last30Total / $target30) * 100)
                 : 0;
         }
 
