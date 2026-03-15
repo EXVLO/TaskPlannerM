@@ -7,7 +7,6 @@ use App\Models\Task;
 use App\Models\TaskManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
@@ -44,7 +43,6 @@ class TagController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('tags')->where('task_id', $task->id),
             ],
             'color' => ['nullable', 'string', 'max:20'],
         ]);
@@ -59,6 +57,11 @@ class TagController extends Controller
             ]
         );
 
+        if ($task->tags()->whereKey($tag->id)->exists()) {
+            return redirect()->route('office.tags.index', [$task_manager, $task])
+                ->with('error', 'This tag is already attached to the task.');
+        }
+
         $task->tags()->syncWithoutDetaching([$tag->id]);
 
         return redirect()->route('office.tags.index', [$task_manager, $task])
@@ -71,8 +74,16 @@ class TagController extends Controller
             abort(403);
         }
 
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
         if ($tag->user_id !== Auth::id()) {
             abort(403);
+        }
+
+        if (! $task->tags()->whereKey($tag->id)->exists()) {
+            abort(404);
         }
 
         $validated = $request->validate([
@@ -89,6 +100,14 @@ class TagController extends Controller
     public function destroy(TaskManager $task_manager, Task $task, Tag $tag)
     {
         if ($task_manager->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($task->task_manager_id !== $task_manager->id) {
+            abort(404);
+        }
+
+        if ($tag->user_id !== Auth::id()) {
             abort(403);
         }
 
