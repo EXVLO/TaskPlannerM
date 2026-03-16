@@ -3,16 +3,22 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-            <div class="flex w-full max-w-sm flex-col gap-2">
-                <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                    <span class="flex h-9 w-9 mb-1 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
+    <body class="min-h-screen antialiased bg-slate-950 text-slate-100">
+        <div class="relative flex min-h-svh items-center justify-center overflow-hidden px-6 py-10">
+            <div class="pointer-events-none absolute inset-0">
+                <div class="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl"></div>
+                <div class="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"></div>
+            </div>
+
+            <div class="relative w-full max-w-md">
+                <a href="{{ route('home') }}" class="mb-5 flex items-center justify-center gap-3" wire:navigate>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-400 to-blue-700 text-sm font-bold text-white shadow-lg shadow-blue-900/40">
+                        TPM
                     </span>
-                    <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
+                    <span class="text-sm font-semibold tracking-wide text-blue-100">TaskPlannerM</span>
                 </a>
-                <div class="flex flex-col gap-6">
+
+                <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-black/40 backdrop-blur">
                     {{ $slot }}
                 </div>
             </div>

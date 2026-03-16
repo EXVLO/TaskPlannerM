@@ -1,6 +1,6 @@
-<x-layouts::auth :title="__('Log in')">
+<x-layouts::auth :title="__('TPM Login')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+        <x-auth-header :title="__('Welcome to TPM')" :description="__('Sign in to access your Task Planner Manager dashboard')" />
 
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
@@ -44,7 +44,7 @@
 
             <div class="flex items-center justify-end">
                 <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
+                    {{ __('Sign in to TPM') }}
                 </flux:button>
             </div>
         </form>
